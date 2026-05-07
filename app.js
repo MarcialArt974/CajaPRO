@@ -12,12 +12,18 @@ let editandoId = null;
 
 init();
 
+/* =========================
+   🚀 INICIO
+========================= */
+
 function init() {
 
   render();
 }
 
-/* TABS */
+/* =========================
+   🔻 TABS
+========================= */
 
 function cambiarTab(tab) {
 
@@ -32,7 +38,9 @@ function cambiarTab(tab) {
     .classList.add("activa");
 }
 
-/* MODAL */
+/* =========================
+   ✨ MODAL
+========================= */
 
 function abrirModalNuevo() {
 
@@ -119,7 +127,9 @@ function limpiarModal() {
   });
 }
 
-/* GUARDAR */
+/* =========================
+   💾 GUARDAR PRODUCTO
+========================= */
 
 function guardarProductoModal() {
 
@@ -211,7 +221,9 @@ function guardarProductoModal() {
   render();
 }
 
-/* VENDER */
+/* =========================
+   🛒 VENDER
+========================= */
 
 function venderProducto(id) {
 
@@ -264,7 +276,9 @@ function venderProducto(id) {
   mensaje("Venta registrada");
 }
 
-/* VENTA RAPIDA */
+/* =========================
+   ⚡ VENTA RAPIDA
+========================= */
 
 function ventaRapida(monto) {
 
@@ -298,7 +312,9 @@ function ventaRapida(monto) {
   mensaje("Venta agregada");
 }
 
-/* ELIMINAR PRODUCTO */
+/* =========================
+   🗑 ELIMINAR PRODUCTO
+========================= */
 
 function eliminarProducto(id) {
 
@@ -321,7 +337,9 @@ function eliminarProducto(id) {
   mensaje("Producto eliminado");
 }
 
-/* ANULAR */
+/* =========================
+   ↩️ ANULAR
+========================= */
 
 function anularVenta(id) {
 
@@ -341,7 +359,31 @@ function anularVenta(id) {
   mensaje("Venta anulada");
 }
 
-/* RENDER */
+/* =========================
+   🔄 REINICIAR
+========================= */
+
+function reiniciarCaja() {
+
+  const ok =
+    confirm(
+      "¿Reiniciar caja?\n\nSe eliminarán las ventas actuales."
+    );
+
+  if (!ok) return;
+
+  data.ventas = [];
+
+  guardar();
+
+  render();
+
+  mensaje("Caja reiniciada");
+}
+
+/* =========================
+   📊 RENDER
+========================= */
 
 function render() {
 
@@ -356,7 +398,9 @@ function render() {
   renderTopProducto();
 }
 
-/* RESUMEN */
+/* =========================
+   📈 RESUMEN
+========================= */
 
 function renderResumen() {
 
@@ -411,7 +455,9 @@ function renderResumen() {
   }
 }
 
-/* TOP PRODUCTO */
+/* =========================
+   🔥 TOP
+========================= */
 
 function renderTopProducto() {
 
@@ -421,14 +467,16 @@ function renderTopProducto() {
       "topProducto"
     ).innerText =
       "Agrega productos para empezar";
+
     return;
   }
 
   let top =
-    data.productos.sort(
-      (a,b) =>
-        b.vendidos - a.vendidos
-    )[0];
+    [...data.productos]
+      .sort(
+        (a,b) =>
+          b.vendidos - a.vendidos
+      )[0];
 
   document.getElementById(
     "topProducto"
@@ -436,7 +484,9 @@ function renderTopProducto() {
     `🔥 Más vendido: ${top.nombre}`;
 }
 
-/* PRODUCTOS */
+/* =========================
+   📦 PRODUCTOS
+========================= */
 
 function renderProductos() {
 
@@ -498,7 +548,9 @@ function renderProductos() {
   });
 }
 
-/* HISTORIAL */
+/* =========================
+   📜 HISTORIAL
+========================= */
 
 function renderHistorial() {
 
@@ -539,7 +591,13 @@ function renderHistorial() {
 
           ${
             v.anulada
-            ? "<b style='color:red'>ANULADA</b>"
+
+            ? `
+              <div class="anulada">
+                ANULADA
+              </div>
+            `
+
             : `
               <button
                 class="btn-eliminar"
@@ -556,7 +614,9 @@ function renderHistorial() {
     });
 }
 
-/* DASHBOARD */
+/* =========================
+   📊 DASHBOARD
+========================= */
 
 function renderDashboard() {
 
@@ -624,93 +684,37 @@ function renderDashboard() {
           </small>
 
           <b>
-            ${data.ventas.length}
+            ${
+              data.ventas.filter(
+                v => !v.anulada
+              ).length
+            }
           </b>
 
         </div>
 
       </div>
 
-      <div class="barra-container">
+      ${crearBarra(
+        "💵 Efectivo",
+        efectivo,
+        total,
+        "efectivo"
+      )}
 
-        <div class="barra-label">
+      ${crearBarra(
+        "📱 Yape",
+        yape,
+        total,
+        "yape"
+      )}
 
-          <span>
-            💵 Efectivo
-          </span>
-
-          <span>
-            S/${efectivo}
-          </span>
-
-        </div>
-
-        <div class="barra">
-
-          <div
-            class="barra-fill efectivo"
-            style="
-              width:${(efectivo / total) * 100}%
-            "
-          ></div>
-
-        </div>
-
-      </div>
-
-      <div class="barra-container">
-
-        <div class="barra-label">
-
-          <span>
-            📱 Yape
-          </span>
-
-          <span>
-            S/${yape}
-          </span>
-
-        </div>
-
-        <div class="barra">
-
-          <div
-            class="barra-fill yape"
-            style="
-              width:${(yape / total) * 100}%
-            "
-          ></div>
-
-        </div>
-
-      </div>
-
-      <div class="barra-container">
-
-        <div class="barra-label">
-
-          <span>
-            📲 Plin
-          </span>
-
-          <span>
-            S/${plin}
-          </span>
-
-        </div>
-
-        <div class="barra">
-
-          <div
-            class="barra-fill plin"
-            style="
-              width:${(plin / total) * 100}%
-            "
-          ></div>
-
-        </div>
-
-      </div>
+      ${crearBarra(
+        "📲 Plin",
+        plin,
+        total,
+        "plin"
+      )}
 
     </div>
 
@@ -725,6 +729,7 @@ function renderDashboard() {
 
       ${
         stockBajo.length
+
         ? stockBajo
             .map(p => `
               <div class="stock-bajo">
@@ -732,6 +737,7 @@ function renderDashboard() {
               </div>
             `)
             .join("")
+
         : "Todo bien ✅"
       }
 
@@ -739,7 +745,48 @@ function renderDashboard() {
   `;
 }
 
-/* EXPORTAR */
+function crearBarra(
+  nombre,
+  valor,
+  total,
+  clase
+) {
+
+  return `
+
+    <div class="barra-container">
+
+      <div class="barra-label">
+
+        <span>
+          ${nombre}
+        </span>
+
+        <span>
+          S/${valor}
+        </span>
+
+      </div>
+
+      <div class="barra">
+
+        <div
+          class="barra-fill ${clase}"
+          style="
+            width:${(valor / total) * 100}%
+          "
+        ></div>
+
+      </div>
+
+    </div>
+
+  `;
+}
+
+/* =========================
+   📄 EXPORTAR
+========================= */
 
 function exportar() {
 
@@ -760,7 +807,9 @@ ${v.anulada ? "ANULADA" : ""}
   const blob =
     new Blob(
       [texto],
-      { type: "text/plain" }
+      {
+        type: "text/plain"
+      }
     );
 
   const link =
@@ -775,7 +824,9 @@ ${v.anulada ? "ANULADA" : ""}
   link.click();
 }
 
-/* UTIL */
+/* =========================
+   🧠 UTIL
+========================= */
 
 function guardar() {
 
