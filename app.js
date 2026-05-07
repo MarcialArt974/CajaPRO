@@ -121,12 +121,12 @@ function guardarProductoModal() {
   const nombre =
     document.getElementById(
       "mNombre"
-    ).value;
+    ).value.trim();
 
   const categoria =
     document.getElementById(
       "mCategoria"
-    ).value;
+    ).value.trim();
 
   const precio =
     parseFloat(
@@ -157,7 +157,21 @@ function guardarProductoModal() {
     ) || 0;
 
   if (!nombre) {
-    return mensaje("Nombre requerido");
+
+    return mensaje(
+      "Nombre requerido"
+    );
+  }
+
+  if (
+    isNaN(precio) ||
+    isNaN(costo) ||
+    isNaN(stock)
+  ) {
+
+    return mensaje(
+      "Completa todos los datos"
+    );
   }
 
   if (editandoId) {
@@ -166,6 +180,8 @@ function guardarProductoModal() {
       data.productos.find(
         x => x.id === editandoId
       );
+
+    if (!p) return;
 
     p.nombre = nombre;
     p.categoria = categoria;
@@ -196,7 +212,7 @@ function guardarProductoModal() {
 
   render();
 
-  mensaje("Guardado");
+  mensaje("Producto guardado");
 }
 
 /* =========================
@@ -213,7 +229,10 @@ function venderProducto(id) {
   if (!p) return;
 
   if (p.stock <= 0) {
-    return mensaje("Sin stock");
+
+    return mensaje(
+      "Sin stock"
+    );
   }
 
   const metodo =
@@ -237,7 +256,8 @@ function venderProducto(id) {
     metodo,
 
     fecha:
-      new Date().toLocaleTimeString(),
+      new Date()
+      .toLocaleString(),
 
     anulada: false
   });
@@ -249,11 +269,13 @@ function venderProducto(id) {
 
   render();
 
-  mensaje("Venta registrada");
+  mensaje(
+    "Venta registrada"
+  );
 }
 
 /* =========================
-   ⚡ RAPIDA
+   ⚡ VENTA RÁPIDA
 ========================= */
 
 function ventaRapida(monto) {
@@ -267,7 +289,8 @@ function ventaRapida(monto) {
 
     id: Date.now(),
 
-    producto: "Venta rápida",
+    producto:
+      "Venta rápida",
 
     monto,
 
@@ -276,7 +299,8 @@ function ventaRapida(monto) {
     metodo,
 
     fecha:
-      new Date().toLocaleTimeString(),
+      new Date()
+      .toLocaleString(),
 
     anulada: false
   });
@@ -285,19 +309,20 @@ function ventaRapida(monto) {
 
   render();
 
-  mensaje("Venta rápida");
+  mensaje(
+    "Venta rápida registrada"
+  );
 }
 
 /* =========================
-   🗑 PRODUCTO
+   🗑 ELIMINAR PRODUCTO
 ========================= */
 
 function eliminarProducto(id) {
 
-  const ok =
-    confirm(
-      "¿Eliminar producto?"
-    );
+  const ok = confirm(
+    "¿Eliminar producto?"
+  );
 
   if (!ok) return;
 
@@ -309,10 +334,14 @@ function eliminarProducto(id) {
   guardar();
 
   render();
+
+  mensaje(
+    "Producto eliminado"
+  );
 }
 
 /* =========================
-   ↩️ ANULAR
+   ↩️ ANULAR VENTA
 ========================= */
 
 function anularVenta(id) {
@@ -330,19 +359,20 @@ function anularVenta(id) {
 
   render();
 
-  mensaje("Venta anulada");
+  mensaje(
+    "Venta anulada"
+  );
 }
 
 /* =========================
-   🔄 REINICIAR
+   🔄 REINICIAR CAJA
 ========================= */
 
 function reiniciarCaja() {
 
-  const ok =
-    confirm(
-      "¿Reiniciar caja?"
-    );
+  const ok = confirm(
+    "¿Reiniciar caja?"
+  );
 
   if (!ok) return;
 
@@ -352,11 +382,13 @@ function reiniciarCaja() {
 
   render();
 
-  mensaje("Caja reiniciada");
+  mensaje(
+    "Caja reiniciada"
+  );
 }
 
 /* =========================
-   📄 PDF
+   📄 EXPORTAR PDF
 ========================= */
 
 async function exportar() {
@@ -369,6 +401,8 @@ async function exportar() {
 
   let y = 20;
 
+  // HEADER
+
   doc.setFillColor(
     39,
     174,
@@ -380,7 +414,7 @@ async function exportar() {
     0,
     220,
     35,
-    'F'
+    "F"
   );
 
   doc.setTextColor(
@@ -392,7 +426,7 @@ async function exportar() {
   doc.setFontSize(22);
 
   doc.text(
-    'CajaPRO',
+    "CajaPRO",
     14,
     18
   );
@@ -400,10 +434,12 @@ async function exportar() {
   doc.setFontSize(11);
 
   doc.text(
-    'Reporte de ventas',
+    "Reporte de ventas",
     14,
     27
   );
+
+  // FECHA
 
   doc.setTextColor(
     80,
@@ -423,6 +459,8 @@ async function exportar() {
     y
   );
 
+  // TOTALES
+
   y += 18;
 
   let ventasTotal = 0;
@@ -432,7 +470,8 @@ async function exportar() {
 
     if (!v.anulada) {
 
-      ventasTotal += v.monto;
+      ventasTotal +=
+        v.monto;
 
       gananciasTotal +=
         v.ganancia;
@@ -452,7 +491,7 @@ async function exportar() {
     28,
     4,
     4,
-    'F'
+    "F"
   );
 
   doc.setTextColor(
@@ -460,6 +499,8 @@ async function exportar() {
     40,
     40
   );
+
+  doc.setFontSize(12);
 
   doc.text(
     `Ventas Totales: S/ ${ventasTotal}`,
@@ -473,6 +514,8 @@ async function exportar() {
     y + 20
   );
 
+  // TABLA
+
   y += 45;
 
   doc.setFontSize(14);
@@ -484,12 +527,60 @@ async function exportar() {
   );
 
   doc.text(
-    'Historial de ventas',
+    "Historial de ventas",
     14,
     y
   );
 
   y += 10;
+
+  doc.setFillColor(
+    39,
+    174,
+    96
+  );
+
+  doc.rect(
+    14,
+    y,
+    180,
+    10,
+    "F"
+  );
+
+  doc.setTextColor(
+    255,
+    255,
+    255
+  );
+
+  doc.setFontSize(10);
+
+  doc.text(
+    "Producto",
+    18,
+    y + 7
+  );
+
+  doc.text(
+    "Monto",
+    90,
+    y + 7
+  );
+
+  doc.text(
+    "Pago",
+    125,
+    y + 7
+  );
+
+  doc.text(
+    "Estado",
+    160,
+    y + 7
+  );
+
+  y += 15;
 
   data.ventas.forEach(v => {
 
@@ -501,35 +592,33 @@ async function exportar() {
     }
 
     doc.setTextColor(
-      50,
-      50,
-      50
+      40,
+      40,
+      40
     );
 
-    doc.setFontSize(10);
-
     doc.text(
-      `${v.producto}`,
+      String(v.producto),
       18,
       y
     );
 
     doc.text(
-      `S/${v.monto}`,
+      `S/ ${v.monto}`,
       90,
       y
     );
 
     doc.text(
-      `${v.metodo}`,
+      String(v.metodo),
       125,
       y
     );
 
     doc.text(
       v.anulada
-      ? "ANULADA"
-      : "OK",
+        ? "ANULADA"
+        : "OK",
       160,
       y
     );
@@ -537,11 +626,29 @@ async function exportar() {
     y += 10;
   });
 
+  y += 15;
+
+  doc.setFontSize(10);
+
+  doc.setTextColor(
+    120,
+    120,
+    120
+  );
+
+  doc.text(
+    "Generado automáticamente por CajaPRO",
+    14,
+    y
+  );
+
   doc.save(
     "Reporte-CajaPRO.pdf"
   );
 
-  mensaje("PDF descargado");
+  mensaje(
+    "PDF descargado"
+  );
 }
 
 /* =========================
@@ -561,6 +668,10 @@ function render() {
   renderTopProducto();
 }
 
+/* =========================
+   📈 RESUMEN
+========================= */
+
 function renderResumen() {
 
   let total = 0;
@@ -577,6 +688,11 @@ function renderResumen() {
     }
   });
 
+  const transacciones =
+    data.ventas.filter(
+      v => !v.anulada
+    ).length;
+
   document.getElementById(
     "ventas"
   ).innerText =
@@ -590,10 +706,50 @@ function renderResumen() {
   document.getElementById(
     "transacciones"
   ).innerText =
-    data.ventas.filter(
-      v => !v.anulada
-    ).length;
+    transacciones;
+
+  // ESTADO
+
+  let estado = "";
+
+  if (total === 0) {
+
+    estado =
+      "🟢 Empecemos el día";
+  }
+
+  else if (total < 50) {
+
+    estado =
+      "😴 Día tranquilo";
+  }
+
+  else if (total < 150) {
+
+    estado =
+      "🙂 Día normal";
+  }
+
+  else if (total < 300) {
+
+    estado =
+      "🔥 Buen día";
+  }
+
+  else {
+
+    estado =
+      "🚀 Excelente día";
+  }
+
+  document.getElementById(
+    "estado"
+  ).innerText = estado;
 }
+
+/* =========================
+   🔥 TOP PRODUCTO
+========================= */
 
 function renderTopProducto() {
 
@@ -613,7 +769,8 @@ function renderTopProducto() {
     [...data.productos]
     .sort(
       (a,b) =>
-        b.vendidos - a.vendidos
+        b.vendidos -
+        a.vendidos
     )[0];
 
   document.getElementById(
@@ -621,6 +778,10 @@ function renderTopProducto() {
   ).innerText =
     `🔥 Más vendido: ${top.nombre}`;
 }
+
+/* =========================
+   📦 PRODUCTOS
+========================= */
 
 function renderProductos() {
 
@@ -681,6 +842,10 @@ function renderProductos() {
     `;
   });
 }
+
+/* =========================
+   📜 HISTORIAL
+========================= */
 
 function renderHistorial() {
 
@@ -744,6 +909,10 @@ function renderHistorial() {
     });
 }
 
+/* =========================
+   📊 DASHBOARD
+========================= */
+
 function renderDashboard() {
 
   let efectivo = 0;
@@ -757,19 +926,22 @@ function renderDashboard() {
     if (v.anulada) return;
 
     if (
-      v.metodo === "efectivo"
+      v.metodo ===
+      "efectivo"
     ) {
       efectivo += v.monto;
     }
 
     if (
-      v.metodo === "yape"
+      v.metodo ===
+      "yape"
     ) {
       yape += v.monto;
     }
 
     if (
-      v.metodo === "plin"
+      v.metodo ===
+      "plin"
     ) {
       plin += v.monto;
     }
@@ -820,7 +992,9 @@ function renderDashboard() {
 
           <b>
             ${
-              data.ventas.length
+              data.ventas.filter(
+                v => !v.anulada
+              ).length
             }
           </b>
 
@@ -878,6 +1052,10 @@ function renderDashboard() {
   `;
 }
 
+/* =========================
+   📊 BARRAS
+========================= */
+
 function barra(
   nombre,
   valor,
@@ -918,7 +1096,7 @@ function barra(
 }
 
 /* =========================
-   🧠 UTIL
+   🧠 UTILIDADES
 ========================= */
 
 function guardar() {
@@ -946,5 +1124,5 @@ function mensaje(txt) {
       "show"
     );
 
-  }, 1500);
+  }, 1600);
 }
