@@ -25,6 +25,23 @@ function init() {
 }
 
 // ===============================
+// 🔻 CAMBIAR TAB
+// ===============================
+
+function cambiarTab(tab) {
+
+  document
+    .querySelectorAll(".pantalla")
+    .forEach(p =>
+      p.classList.remove("activa")
+    );
+
+  document
+    .getElementById(tab)
+    .classList.add("activa");
+}
+
+// ===============================
 // 📦 AGREGAR PRODUCTO
 // ===============================
 
@@ -304,16 +321,19 @@ function renderResumen() {
     document.getElementById("estado");
 
   if (ganancia > 200) {
+
     estado.innerText =
       "Excelente día 🚀";
   }
 
   else if (ganancia > 50) {
+
     estado.innerText =
       "Buen día 🟢";
   }
 
   else {
+
     estado.innerText =
       "Día tranquilo 🟡";
   }
@@ -393,6 +413,12 @@ function renderHistorial() {
     .reverse()
     .forEach(v => {
 
+      const metodo =
+        v.metodo || "efectivo";
+
+      const fecha =
+        v.fecha || "--:--";
+
       cont.innerHTML += `
 
         <div class="historial-item">
@@ -407,8 +433,8 @@ function renderHistorial() {
 
           </div>
 
-          ${v.metodo}
-          • ${v.fecha}
+          ${metodo}
+          • ${fecha}
 
         </div>
 
@@ -466,13 +492,41 @@ function renderDashboard() {
         📊 Métodos de pago
       </h3>
 
+      <div class="stats-grid">
+
+        <div class="stat-box">
+
+          <small>Total ventas</small>
+
+          <b>
+            ${data.ventas.length}
+          </b>
+
+        </div>
+
+        <div class="stat-box">
+
+          <small>Productos</small>
+
+          <b>
+            ${data.productos.length}
+          </b>
+
+        </div>
+
+      </div>
+
       <div class="barra-container">
 
         <div class="barra-label">
 
-          <span>💵 Efectivo</span>
+          <span>
+            💵 Efectivo
+          </span>
 
-          <span>S/${efectivo}</span>
+          <span>
+            S/${efectivo}
+          </span>
 
         </div>
 
@@ -493,9 +547,13 @@ function renderDashboard() {
 
         <div class="barra-label">
 
-          <span>📱 Yape</span>
+          <span>
+            📱 Yape
+          </span>
 
-          <span>S/${yape}</span>
+          <span>
+            S/${yape}
+          </span>
 
         </div>
 
@@ -516,9 +574,13 @@ function renderDashboard() {
 
         <div class="barra-label">
 
-          <span>📲 Plin</span>
+          <span>
+            📲 Plin
+          </span>
 
-          <span>S/${plin}</span>
+          <span>
+            S/${plin}
+          </span>
 
         </div>
 
@@ -572,7 +634,7 @@ function renderDashboard() {
 function exportar() {
 
   let texto =
-`RESUMEN\n\n`;
+`RESUMEN DEL DÍA\n\n`;
 
   data.ventas.forEach(v => {
 
