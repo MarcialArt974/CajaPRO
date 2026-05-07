@@ -33,8 +33,6 @@
       class="pantalla activa"
     >
 
-      <!-- HEADER -->
-
       <div class="header">
 
         <div class="header-top">
@@ -63,7 +61,7 @@
 
       </div>
 
-      <!-- CARDS -->
+      <!-- RESUMEN -->
 
       <div class="cards">
 
@@ -130,7 +128,7 @@
 
       </div>
 
-      <!-- METODO -->
+      <!-- PAGO -->
 
       <div class="seccion">
 
@@ -213,14 +211,14 @@
               class="mini-btn"
               onclick="reiniciarCaja()"
             >
-              Reiniciar caja
+              Reiniciar
             </button>
 
             <button
               class="mini-btn"
               onclick="exportar()"
             >
-              Descargar
+              PDF
             </button>
 
           </div>
@@ -235,9 +233,7 @@
 
   </div>
 
-  <!-- =========================
-       🔻 NAVBAR
-  ========================== -->
+  <!-- NAV -->
 
   <div class="navbar">
 
@@ -338,6 +334,10 @@
     id="mensaje"
     class="mensaje"
   ></div>
+
+  <!-- PDF -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <script src="app.js"></script>
 
