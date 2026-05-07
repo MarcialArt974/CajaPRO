@@ -28,12 +28,12 @@
          🏠 INICIO
     ========================== -->
 
-    <div
+    <section
       id="inicio"
       class="pantalla activa"
     >
 
-      <!-- 💰 HEADER -->
+      <!-- HEADER -->
 
       <div class="header">
 
@@ -63,7 +63,7 @@
 
       </div>
 
-      <!-- 📊 CARDS -->
+      <!-- CARDS -->
 
       <div class="cards">
 
@@ -93,18 +93,18 @@
 
       </div>
 
-      <!-- 🔥 PRODUCTO TOP -->
+      <!-- PRODUCTO TOP -->
 
       <div
         id="topProducto"
         class="destacado"
       ></div>
 
-      <!-- 📊 DASHBOARD -->
+      <!-- DASHBOARD -->
 
       <div id="dashboardPro"></div>
 
-      <!-- ⚡ VENTA RÁPIDA -->
+      <!-- VENTA RÁPIDA -->
 
       <div class="seccion">
 
@@ -136,7 +136,7 @@
 
       </div>
 
-      <!-- 💳 MÉTODO -->
+      <!-- MÉTODO -->
 
       <div class="seccion">
 
@@ -162,74 +162,45 @@
 
       </div>
 
-    </div>
+    </section>
 
     <!-- =========================
          📦 PRODUCTOS
     ========================== -->
 
-    <div
+    <section
       id="productosTab"
       class="pantalla"
     >
 
       <div class="seccion">
 
-        <h2>
-          Productos
-        </h2>
+        <div class="titulo-row">
+
+          <h2>
+            Productos
+          </h2>
+
+          <button
+            class="mini-btn"
+            onclick="abrirModalNuevo()"
+          >
+            + Nuevo
+          </button>
+
+        </div>
 
         <div id="productos"></div>
 
       </div>
 
-      <!-- ➕ AGREGAR -->
-
-      <div class="seccion">
-
-        <h3>
-          Agregar producto
-        </h3>
-
-        <input
-          id="nombre"
-          placeholder="Nombre del producto"
-        />
-
-        <input
-          id="precio"
-          type="number"
-          placeholder="Precio"
-        />
-
-        <input
-          id="costo"
-          type="number"
-          placeholder="Costo"
-        />
-
-        <input
-          id="stock"
-          type="number"
-          placeholder="Stock"
-        />
-
-        <button
-          class="btn-full"
-          onclick="agregarProducto()"
-        >
-          Agregar producto
-        </button>
-
-      </div>
-
-    </div>
+    </section>
 
     <!-- =========================
          📜 HISTORIAL
     ========================== -->
 
-    <div
+    <section
       id="historialTab"
       class="pantalla"
     >
@@ -255,7 +226,7 @@
 
       </div>
 
-    </div>
+    </section>
 
   </div>
 
@@ -286,8 +257,77 @@
   </div>
 
   <!-- =========================
-       🔔 MENSAJE
+       ✨ MODAL
   ========================== -->
+
+  <div
+    id="modal"
+    class="modal"
+  >
+
+    <div class="modal-box">
+
+      <div class="titulo-row">
+
+        <h2 id="modalTitulo">
+          Producto
+        </h2>
+
+        <button
+          class="cerrar"
+          onclick="cerrarModal()"
+        >
+          ✕
+        </button>
+
+      </div>
+
+      <input
+        id="mNombre"
+        placeholder="Nombre"
+      />
+
+      <input
+        id="mCategoria"
+        placeholder="Categoría"
+      />
+
+      <input
+        id="mPrecio"
+        type="number"
+        placeholder="Precio"
+      />
+
+      <input
+        id="mCosto"
+        type="number"
+        placeholder="Costo"
+      />
+
+      <input
+        id="mStock"
+        type="number"
+        placeholder="Stock"
+      />
+
+      <input
+        id="mAgregarStock"
+        type="number"
+        placeholder="Agregar stock"
+      />
+
+      <button
+        class="btn-full"
+        onclick="guardarProductoModal()"
+      >
+        Guardar
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- MENSAJE -->
 
   <div
     id="mensaje"
