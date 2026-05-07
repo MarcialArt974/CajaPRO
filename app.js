@@ -1,9 +1,15 @@
+// app.js
+
 // ===============================
-// 💾 BASE DE DATOS LOCAL
+// 💾 DATA
 // ===============================
 
-let data = JSON.parse(localStorage.getItem("data")) || {
+let data = JSON.parse(
+  localStorage.getItem("data")
+) || {
+
   productos: [],
+
   ventas: []
 };
 
@@ -14,22 +20,8 @@ let data = JSON.parse(localStorage.getItem("data")) || {
 init();
 
 function init() {
+
   render();
-}
-
-// ===============================
-// 🔻 CAMBIAR PANTALLAS
-// ===============================
-
-function cambiarTab(tab) {
-
-  document.querySelectorAll(".pantalla")
-    .forEach(p =>
-      p.classList.remove("activa")
-    );
-
-  document.getElementById(tab)
-    .classList.add("activa");
 }
 
 // ===============================
@@ -58,8 +50,6 @@ function agregarProducto() {
       document.getElementById("stock").value
     );
 
-  // VALIDACIONES
-
   if (!nombre) {
     return mensaje("Escribe un nombre");
   }
@@ -69,18 +59,8 @@ function agregarProducto() {
     isNaN(costo) ||
     isNaN(stock)
   ) {
-    return mensaje(
-      "Completa todos los campos"
-    );
+    return mensaje("Completa todo");
   }
-
-  if (precio <= costo) {
-    return mensaje(
-      "El precio debe ser mayor al costo"
-    );
-  }
-
-  // CREAR PRODUCTO
 
   data.productos.push({
 
@@ -107,21 +87,19 @@ function agregarProducto() {
 }
 
 // ===============================
-// 🛒 VENDER PRODUCTO
+// 🛒 VENDER
 // ===============================
 
 function venderProducto(id) {
 
-  const producto =
+  const p =
     data.productos.find(
-      p => p.id === id
+      x => x.id === id
     );
 
-  if (!producto) return;
+  if (!p) return;
 
-  // STOCK
-
-  if (producto.stock <= 0) {
+  if (p.stock <= 0) {
     return mensaje("Sin stock");
   }
 
@@ -130,34 +108,27 @@ function venderProducto(id) {
       .value;
 
   const ganancia =
-    producto.precio - producto.costo;
-
-  // REGISTRAR VENTA
+    p.precio - p.costo;
 
   data.ventas.push({
 
     id: Date.now(),
 
-    producto: producto.nombre,
+    producto: p.nombre,
 
-    monto: producto.precio,
+    monto: p.precio,
 
     ganancia,
 
     metodo,
 
     fecha:
-      new Date().toLocaleTimeString(),
-
-    dia:
-      new Date().toLocaleDateString()
+      new Date().toLocaleTimeString()
   });
 
-  // ACTUALIZAR PRODUCTO
+  p.stock--;
 
-  producto.stock--;
-
-  producto.vendidos++;
+  p.vendidos++;
 
   guardar();
 
@@ -191,10 +162,7 @@ function ventaRapida(monto) {
     metodo,
 
     fecha:
-      new Date().toLocaleTimeString(),
-
-    dia:
-      new Date().toLocaleDateString()
+      new Date().toLocaleTimeString()
   });
 
   guardar();
@@ -203,11 +171,11 @@ function ventaRapida(monto) {
 
   vibrar();
 
-  mensaje(`+ S/${monto}`);
+  mensaje("Venta agregada");
 }
 
 // ===============================
-// ✏️ EDITAR PRODUCTO
+// ✏️ EDITAR
 // ===============================
 
 function editarProducto(id) {
@@ -219,15 +187,15 @@ function editarProducto(id) {
 
   if (!p) return;
 
-  const nuevoNombre =
+  const nombre =
     prompt(
       "Nombre",
       p.nombre
     );
 
-  if (!nuevoNombre) return;
+  if (!nombre) return;
 
-  const nuevoPrecio =
+  const precio =
     parseFloat(
       prompt(
         "Precio",
@@ -235,7 +203,7 @@ function editarProducto(id) {
       )
     );
 
-  const nuevoCosto =
+  const costo =
     parseFloat(
       prompt(
         "Costo",
@@ -243,7 +211,7 @@ function editarProducto(id) {
       )
     );
 
-  const nuevoStock =
+  const stock =
     parseInt(
       prompt(
         "Stock",
@@ -251,20 +219,10 @@ function editarProducto(id) {
       )
     );
 
-  if (
-    isNaN(nuevoPrecio) ||
-    isNaN(nuevoCosto) ||
-    isNaN(nuevoStock)
-  ) {
-    return mensaje(
-      "Datos inválidos"
-    );
-  }
-
-  p.nombre = nuevoNombre;
-  p.precio = nuevoPrecio;
-  p.costo = nuevoCosto;
-  p.stock = nuevoStock;
+  p.nombre = nombre;
+  p.precio = precio;
+  p.costo = costo;
+  p.stock = stock;
 
   guardar();
 
@@ -274,7 +232,7 @@ function editarProducto(id) {
 }
 
 // ===============================
-// 🗑 ELIMINAR PRODUCTO
+// 🗑 ELIMINAR
 // ===============================
 
 function eliminarProducto(id) {
@@ -299,7 +257,7 @@ function eliminarProducto(id) {
 }
 
 // ===============================
-// 📊 RENDER GENERAL
+// 📊 RENDER
 // ===============================
 
 function render() {
@@ -310,74 +268,54 @@ function render() {
 
   renderHistorial();
 
-  renderTop();
-
-  renderDashboardPro();
+  renderDashboard();
 }
 
 // ===============================
-// 📊 RESUMEN PRINCIPAL
+// 📊 RESUMEN
 // ===============================
 
 function renderResumen() {
 
-  let totalVentas = 0;
+  let total = 0;
 
-  let totalGanancia = 0;
+  let ganancia = 0;
 
   data.ventas.forEach(v => {
 
-    totalVentas += v.monto;
+    total += v.monto;
 
-    totalGanancia += v.ganancia;
+    ganancia += v.ganancia;
   });
 
   document.getElementById("ventas")
     .innerText =
-      "S/ " + totalVentas;
+      "S/ " + total;
 
   document.getElementById("ganancia")
     .innerText =
-      "S/ " + totalGanancia;
+      "S/ " + ganancia;
 
   document.getElementById("transacciones")
     .innerText =
       data.ventas.length;
 
-  estadoDia(totalGanancia);
-}
-
-// ===============================
-// 🧠 ESTADO DEL DÍA
-// ===============================
-
-function estadoDia(g) {
-
   const estado =
     document.getElementById("estado");
 
-  if (g > 200) {
-
+  if (ganancia > 200) {
     estado.innerText =
       "Excelente día 🚀";
   }
 
-  else if (g > 100) {
-
+  else if (ganancia > 50) {
     estado.innerText =
       "Buen día 🟢";
   }
 
-  else if (g > 50) {
-
-    estado.innerText =
-      "Normal 🟡";
-  }
-
   else {
-
     estado.innerText =
-      "Bajo 🔴";
+      "Día tranquilo 🟡";
   }
 }
 
@@ -392,37 +330,32 @@ function renderProductos() {
 
   cont.innerHTML = "";
 
-  data.productos
-    .sort((a, b) =>
-      b.vendidos - a.vendidos
-    )
-    .forEach(p => {
+  data.productos.forEach(p => {
 
-      const margen =
-        (
-          (p.precio - p.costo)
-          / p.precio
-        ) * 100;
+    cont.innerHTML += `
 
-      cont.innerHTML += `
+      <div class="producto">
 
-        <div class="producto">
+        <div class="producto-top">
 
-          <b>${p.nombre}</b><br><br>
+          <b>${p.nombre}</b>
 
-          💰 Precio:
-          S/${p.precio}<br>
+          <div class="badge">
+            ${p.stock} stock
+          </div>
 
-          📈 Ganancia:
-          S/${p.precio - p.costo}
-          (${margen.toFixed(0)}%)<br>
+        </div>
 
-          📦 Stock:
-          ${p.stock}
-          ${p.stock < 3 ? "⚠️ Bajo" : ""}<br>
+        💰 Precio:
+        S/${p.precio}<br>
 
-          🔥 Vendidos:
-          ${p.vendidos}<br><br>
+        📈 Ganancia:
+        S/${p.precio - p.costo}<br>
+
+        🔥 Vendidos:
+        ${p.vendidos}
+
+        <div class="producto-buttons">
 
           <button onclick="venderProducto(${p.id})">
             Vender
@@ -438,44 +371,10 @@ function renderProductos() {
 
         </div>
 
-      `;
-    });
-}
+      </div>
 
-// ===============================
-// 🔥 PRODUCTO TOP
-// ===============================
-
-function renderTop() {
-
-  const el =
-    document.getElementById("topProducto");
-
-  if (
-    data.productos.length === 0
-  ) {
-
-    el.innerText = "";
-
-    return;
-  }
-
-  const top =
-    [...data.productos]
-      .sort((a, b) =>
-        b.vendidos - a.vendidos
-      )[0];
-
-  if (top.vendidos === 0) {
-
-    el.innerText =
-      "Aún no hay ventas";
-
-    return;
-  }
-
-  el.innerText =
-    `🔥 Más vendido: ${top.nombre}`;
+    `;
+  });
 }
 
 // ===============================
@@ -490,32 +389,26 @@ function renderHistorial() {
   cont.innerHTML = "";
 
   data.ventas
-    .slice(-20)
+    .slice()
     .reverse()
     .forEach(v => {
 
-      const producto =
-        v.producto || "Venta";
-
-      const monto =
-        v.monto || 0;
-
-      const metodo =
-        v.metodo || "efectivo";
-
-      const fecha =
-        v.fecha || "--:--";
-
       cont.innerHTML += `
 
-        <div>
+        <div class="historial-item">
 
-          <b>${producto}</b><br>
+          <div class="historial-top">
 
-          💵 S/${monto}
-          • ${metodo}<br>
+            <b>${v.producto}</b>
 
-          <small>${fecha}</small>
+            <span>
+              S/${v.monto}
+            </span>
+
+          </div>
+
+          ${v.metodo}
+          • ${v.fecha}
 
         </div>
 
@@ -524,24 +417,18 @@ function renderHistorial() {
 }
 
 // ===============================
-// 📊 DASHBOARD PROFESIONAL
+// 📊 DASHBOARD
 // ===============================
 
-function renderDashboardPro() {
+function renderDashboard() {
 
   let efectivo = 0;
   let yape = 0;
   let plin = 0;
 
-  let ventasHoy = 0;
-
   let stockBajo = [];
 
-  // 📊 RECORRER VENTAS
-
   data.ventas.forEach(v => {
-
-    ventasHoy += v.monto;
 
     if (v.metodo === "efectivo") {
       efectivo += v.monto;
@@ -556,8 +443,6 @@ function renderDashboardPro() {
     }
   });
 
-  // 📦 STOCK BAJO
-
   data.productos.forEach(p => {
 
     if (p.stock <= 2) {
@@ -565,29 +450,8 @@ function renderDashboardPro() {
     }
   });
 
-  // 📈 PORCENTAJES
-
   const total =
     efectivo + yape + plin || 1;
-
-  const efPorcentaje =
-    (efectivo / total) * 100;
-
-  const yapePorcentaje =
-    (yape / total) * 100;
-
-  const plinPorcentaje =
-    (plin / total) * 100;
-
-  // 🔥 PRODUCTO TOP
-
-  let top =
-    [...data.productos]
-      .sort((a, b) =>
-        b.vendidos - a.vendidos
-      )[0];
-
-  // 🧱 RENDER
 
   const dashboard =
     document.getElementById(
@@ -596,41 +460,11 @@ function renderDashboardPro() {
 
   dashboard.innerHTML = `
 
-    <!-- 💰 CAJA -->
-
     <div class="dashboard-card">
 
-      <h3>💰 Caja del día</h3>
-
-      <div class="stats-grid">
-
-        <div class="stat-box">
-
-          <small>Total vendido</small><br>
-
-          <b>S/${ventasHoy}</b>
-
-        </div>
-
-        <div class="stat-box">
-
-          <small>Ventas</small><br>
-
-          <b>${data.ventas.length}</b>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- 📊 PAGOS -->
-
-    <div class="dashboard-card">
-
-      <h3>📊 Métodos de pago</h3>
-
-      <!-- EFECTIVO -->
+      <h3>
+        📊 Métodos de pago
+      </h3>
 
       <div class="barra-container">
 
@@ -646,14 +480,14 @@ function renderDashboardPro() {
 
           <div
             class="barra-fill efectivo"
-            style="width:${efPorcentaje}%"
+            style="
+              width:${(efectivo / total) * 100}%
+            "
           ></div>
 
         </div>
 
       </div>
-
-      <!-- YAPE -->
 
       <div class="barra-container">
 
@@ -669,14 +503,14 @@ function renderDashboardPro() {
 
           <div
             class="barra-fill yape"
-            style="width:${yapePorcentaje}%"
+            style="
+              width:${(yape / total) * 100}%
+            "
           ></div>
 
         </div>
 
       </div>
-
-      <!-- PLIN -->
 
       <div class="barra-container">
 
@@ -692,7 +526,9 @@ function renderDashboardPro() {
 
           <div
             class="barra-fill plin"
-            style="width:${plinPorcentaje}%"
+            style="
+              width:${(plin / total) * 100}%
+            "
           ></div>
 
         </div>
@@ -701,27 +537,14 @@ function renderDashboardPro() {
 
     </div>
 
-    <!-- 🔥 PRODUCTO TOP -->
+    <div class="
+      dashboard-card
+      alerta-card
+    ">
 
-    <div class="dashboard-card">
-
-      <h3>🔥 Producto estrella</h3>
-
-      <p>
-        ${
-          top
-          ? top.nombre
-          : "Sin ventas"
-        }
-      </p>
-
-    </div>
-
-    <!-- ⚠️ ALERTAS -->
-
-    <div class="dashboard-card alerta-card">
-
-      <h3>⚠️ Alertas</h3>
+      <h3>
+        ⚠️ Alertas
+      </h3>
 
       ${
         stockBajo.length > 0
@@ -734,7 +557,7 @@ function renderDashboardPro() {
             `)
             .join("")
 
-        : "<p>Todo bien ✅</p>"
+        : "Todo bien ✅"
       }
 
     </div>
@@ -743,38 +566,23 @@ function renderDashboardPro() {
 }
 
 // ===============================
-// 📄 EXPORTAR RESUMEN
+// 📄 EXPORTAR
 // ===============================
 
 function exportar() {
 
   let texto =
-`RESUMEN DEL DÍA\n\n`;
-
-  let total = 0;
-
-  let ganancia = 0;
+`RESUMEN\n\n`;
 
   data.ventas.forEach(v => {
 
     texto +=
 `${v.producto}
-- S/${v.monto}
-(${v.metodo})\n`;
+S/${v.monto}
+${v.metodo}
 
-    total += v.monto;
-
-    ganancia += v.ganancia;
+`;
   });
-
-  texto +=
-`\n----------------`;
-
-  texto +=
-`\nTOTAL: S/${total}`;
-
-  texto +=
-`\nGANANCIA: S/${ganancia}`;
 
   const blob =
     new Blob(
@@ -819,7 +627,7 @@ function vibrar() {
 }
 
 // ===============================
-// 🧹 LIMPIAR INPUTS
+// 🧹 LIMPIAR
 // ===============================
 
 function limpiarInputs() {
@@ -848,9 +656,11 @@ function mensaje(txt) {
 
   el.innerText = txt;
 
+  el.classList.add("show");
+
   setTimeout(() => {
 
-    el.innerText = "";
+    el.classList.remove("show");
 
   }, 1500);
 }
