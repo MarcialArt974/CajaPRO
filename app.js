@@ -13,7 +13,7 @@ let editandoId = null;
 init();
 
 /* =========================
-   🚀 INICIO
+   🚀 INIT
 ========================= */
 
 function init() {
@@ -46,11 +46,6 @@ function abrirModalNuevo() {
 
   editandoId = null;
 
-  document.getElementById(
-    "modalTitulo"
-  ).innerText =
-    "Nuevo producto";
-
   limpiarModal();
 
   document
@@ -70,18 +65,12 @@ function abrirModalEditar(id) {
   if (!p) return;
 
   document.getElementById(
-    "modalTitulo"
-  ).innerText =
-    "Editar producto";
-
-  document.getElementById(
     "mNombre"
   ).value = p.nombre;
 
   document.getElementById(
     "mCategoria"
-  ).value =
-    p.categoria || "";
+  ).value = p.categoria;
 
   document.getElementById(
     "mPrecio"
@@ -94,10 +83,6 @@ function abrirModalEditar(id) {
   document.getElementById(
     "mStock"
   ).value = p.stock;
-
-  document.getElementById(
-    "mAgregarStock"
-  ).value = "";
 
   document
     .getElementById("modal")
@@ -128,7 +113,7 @@ function limpiarModal() {
 }
 
 /* =========================
-   💾 GUARDAR PRODUCTO
+   💾 PRODUCTO
 ========================= */
 
 function guardarProductoModal() {
@@ -136,12 +121,12 @@ function guardarProductoModal() {
   const nombre =
     document.getElementById(
       "mNombre"
-    ).value.trim();
+    ).value;
 
   const categoria =
     document.getElementById(
       "mCategoria"
-    ).value.trim();
+    ).value;
 
   const precio =
     parseFloat(
@@ -164,7 +149,7 @@ function guardarProductoModal() {
       ).value
     );
 
-  const agregarStock =
+  const agregar =
     parseInt(
       document.getElementById(
         "mAgregarStock"
@@ -172,11 +157,7 @@ function guardarProductoModal() {
     ) || 0;
 
   if (!nombre) {
-    return mensaje("Escribe nombre");
-  }
-
-  if (isNaN(precio)) {
-    return mensaje("Precio inválido");
+    return mensaje("Nombre requerido");
   }
 
   if (editandoId) {
@@ -190,10 +171,7 @@ function guardarProductoModal() {
     p.categoria = categoria;
     p.precio = precio;
     p.costo = costo;
-    p.stock =
-      stock + agregarStock;
-
-    mensaje("Producto actualizado");
+    p.stock = stock + agregar;
   }
 
   else {
@@ -210,8 +188,6 @@ function guardarProductoModal() {
 
       vendidos: 0
     });
-
-    mensaje("Producto agregado");
   }
 
   guardar();
@@ -219,6 +195,8 @@ function guardarProductoModal() {
   cerrarModal();
 
   render();
+
+  mensaje("Guardado");
 }
 
 /* =========================
@@ -271,13 +249,11 @@ function venderProducto(id) {
 
   render();
 
-  vibrar();
-
   mensaje("Venta registrada");
 }
 
 /* =========================
-   ⚡ VENTA RAPIDA
+   ⚡ RAPIDA
 ========================= */
 
 function ventaRapida(monto) {
@@ -309,11 +285,11 @@ function ventaRapida(monto) {
 
   render();
 
-  mensaje("Venta agregada");
+  mensaje("Venta rápida");
 }
 
 /* =========================
-   🗑 ELIMINAR PRODUCTO
+   🗑 PRODUCTO
 ========================= */
 
 function eliminarProducto(id) {
@@ -333,8 +309,6 @@ function eliminarProducto(id) {
   guardar();
 
   render();
-
-  mensaje("Producto eliminado");
 }
 
 /* =========================
@@ -367,7 +341,7 @@ function reiniciarCaja() {
 
   const ok =
     confirm(
-      "¿Reiniciar caja?\n\nSe eliminarán las ventas actuales."
+      "¿Reiniciar caja?"
     );
 
   if (!ok) return;
@@ -379,6 +353,195 @@ function reiniciarCaja() {
   render();
 
   mensaje("Caja reiniciada");
+}
+
+/* =========================
+   📄 PDF
+========================= */
+
+async function exportar() {
+
+  const { jsPDF } =
+    window.jspdf;
+
+  const doc =
+    new jsPDF();
+
+  let y = 20;
+
+  doc.setFillColor(
+    39,
+    174,
+    96
+  );
+
+  doc.rect(
+    0,
+    0,
+    220,
+    35,
+    'F'
+  );
+
+  doc.setTextColor(
+    255,
+    255,
+    255
+  );
+
+  doc.setFontSize(22);
+
+  doc.text(
+    'CajaPRO',
+    14,
+    18
+  );
+
+  doc.setFontSize(11);
+
+  doc.text(
+    'Reporte de ventas',
+    14,
+    27
+  );
+
+  doc.setTextColor(
+    80,
+    80,
+    80
+  );
+
+  y = 48;
+
+  const fecha =
+    new Date()
+    .toLocaleString();
+
+  doc.text(
+    `Fecha: ${fecha}`,
+    14,
+    y
+  );
+
+  y += 18;
+
+  let ventasTotal = 0;
+  let gananciasTotal = 0;
+
+  data.ventas.forEach(v => {
+
+    if (!v.anulada) {
+
+      ventasTotal += v.monto;
+
+      gananciasTotal +=
+        v.ganancia;
+    }
+  });
+
+  doc.setFillColor(
+    245,
+    245,
+    245
+  );
+
+  doc.roundedRect(
+    14,
+    y,
+    180,
+    28,
+    4,
+    4,
+    'F'
+  );
+
+  doc.setTextColor(
+    40,
+    40,
+    40
+  );
+
+  doc.text(
+    `Ventas Totales: S/ ${ventasTotal}`,
+    20,
+    y + 10
+  );
+
+  doc.text(
+    `Ganancia Total: S/ ${gananciasTotal}`,
+    20,
+    y + 20
+  );
+
+  y += 45;
+
+  doc.setFontSize(14);
+
+  doc.setTextColor(
+    39,
+    174,
+    96
+  );
+
+  doc.text(
+    'Historial de ventas',
+    14,
+    y
+  );
+
+  y += 10;
+
+  data.ventas.forEach(v => {
+
+    if (y > 270) {
+
+      doc.addPage();
+
+      y = 20;
+    }
+
+    doc.setTextColor(
+      50,
+      50,
+      50
+    );
+
+    doc.setFontSize(10);
+
+    doc.text(
+      `${v.producto}`,
+      18,
+      y
+    );
+
+    doc.text(
+      `S/${v.monto}`,
+      90,
+      y
+    );
+
+    doc.text(
+      `${v.metodo}`,
+      125,
+      y
+    );
+
+    doc.text(
+      v.anulada
+      ? "ANULADA"
+      : "OK",
+      160,
+      y
+    );
+
+    y += 10;
+  });
+
+  doc.save(
+    "Reporte-CajaPRO.pdf"
+  );
+
+  mensaje("PDF descargado");
 }
 
 /* =========================
@@ -398,10 +561,6 @@ function render() {
   renderTopProducto();
 }
 
-/* =========================
-   📈 RESUMEN
-========================= */
-
 function renderResumen() {
 
   let total = 0;
@@ -413,7 +572,8 @@ function renderResumen() {
 
       total += v.monto;
 
-      ganancia += v.ganancia;
+      ganancia +=
+        v.ganancia;
     }
   });
 
@@ -433,60 +593,34 @@ function renderResumen() {
     data.ventas.filter(
       v => !v.anulada
     ).length;
-
-  const estado =
-    document.getElementById(
-      "estado"
-    );
-
-  if (ganancia > 200) {
-    estado.innerText =
-      "Excelente día 🚀";
-  }
-
-  else if (ganancia > 50) {
-    estado.innerText =
-      "Buen día 🟢";
-  }
-
-  else {
-    estado.innerText =
-      "Día tranquilo 🟡";
-  }
 }
-
-/* =========================
-   🔥 TOP
-========================= */
 
 function renderTopProducto() {
 
-  if (!data.productos.length) {
+  if (
+    !data.productos.length
+  ) {
 
     document.getElementById(
       "topProducto"
     ).innerText =
-      "Agrega productos para empezar";
+      "Agrega productos";
 
     return;
   }
 
   let top =
     [...data.productos]
-      .sort(
-        (a,b) =>
-          b.vendidos - a.vendidos
-      )[0];
+    .sort(
+      (a,b) =>
+        b.vendidos - a.vendidos
+    )[0];
 
   document.getElementById(
     "topProducto"
   ).innerText =
     `🔥 Más vendido: ${top.nombre}`;
 }
-
-/* =========================
-   📦 PRODUCTOS
-========================= */
 
 function renderProductos() {
 
@@ -515,7 +649,7 @@ function renderProductos() {
 
         </div>
 
-        🏷 ${p.categoria || "General"}<br>
+        🏷 ${p.categoria}<br>
         💰 Precio: S/${p.precio}<br>
         📈 Ganancia: S/${p.precio - p.costo}<br>
         🔥 Vendidos: ${p.vendidos}
@@ -547,10 +681,6 @@ function renderProductos() {
     `;
   });
 }
-
-/* =========================
-   📜 HISTORIAL
-========================= */
 
 function renderHistorial() {
 
@@ -614,10 +744,6 @@ function renderHistorial() {
     });
 }
 
-/* =========================
-   📊 DASHBOARD
-========================= */
-
 function renderDashboard() {
 
   let efectivo = 0;
@@ -630,15 +756,21 @@ function renderDashboard() {
 
     if (v.anulada) return;
 
-    if (v.metodo === "efectivo") {
+    if (
+      v.metodo === "efectivo"
+    ) {
       efectivo += v.monto;
     }
 
-    else if (v.metodo === "yape") {
+    if (
+      v.metodo === "yape"
+    ) {
       yape += v.monto;
     }
 
-    else if (v.metodo === "plin") {
+    if (
+      v.metodo === "plin"
+    ) {
       plin += v.monto;
     }
   });
@@ -646,7 +778,10 @@ function renderDashboard() {
   data.productos.forEach(p => {
 
     if (p.stock <= 2) {
-      stockBajo.push(p.nombre);
+
+      stockBajo.push(
+        p.nombre
+      );
     }
   });
 
@@ -685,9 +820,7 @@ function renderDashboard() {
 
           <b>
             ${
-              data.ventas.filter(
-                v => !v.anulada
-              ).length
+              data.ventas.length
             }
           </b>
 
@@ -695,21 +828,21 @@ function renderDashboard() {
 
       </div>
 
-      ${crearBarra(
+      ${barra(
         "💵 Efectivo",
         efectivo,
         total,
         "efectivo"
       )}
 
-      ${crearBarra(
+      ${barra(
         "📱 Yape",
         yape,
         total,
         "yape"
       )}
 
-      ${crearBarra(
+      ${barra(
         "📲 Plin",
         plin,
         total,
@@ -745,7 +878,7 @@ function renderDashboard() {
   `;
 }
 
-function crearBarra(
+function barra(
   nombre,
   valor,
   total,
@@ -785,46 +918,6 @@ function crearBarra(
 }
 
 /* =========================
-   📄 EXPORTAR
-========================= */
-
-function exportar() {
-
-  let texto =
-`RESUMEN DEL DÍA\n\n`;
-
-  data.ventas.forEach(v => {
-
-    texto += `
-${v.producto}
-S/${v.monto}
-${v.metodo}
-${v.anulada ? "ANULADA" : ""}
-----------------
-`;
-  });
-
-  const blob =
-    new Blob(
-      [texto],
-      {
-        type: "text/plain"
-      }
-    );
-
-  const link =
-    document.createElement("a");
-
-  link.href =
-    URL.createObjectURL(blob);
-
-  link.download =
-    "resumen.txt";
-
-  link.click();
-}
-
-/* =========================
    🧠 UTIL
 ========================= */
 
@@ -834,13 +927,6 @@ function guardar() {
     "data",
     JSON.stringify(data)
   );
-}
-
-function vibrar() {
-
-  if (navigator.vibrate) {
-    navigator.vibrate(50);
-  }
 }
 
 function mensaje(txt) {
@@ -856,7 +942,9 @@ function mensaje(txt) {
 
   setTimeout(() => {
 
-    el.classList.remove("show");
+    el.classList.remove(
+      "show"
+    );
 
   }, 1500);
 }
