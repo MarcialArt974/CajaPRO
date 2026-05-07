@@ -1,21 +1,14 @@
 // app.js
 
-// ===============================
-// 💾 DATA
-// ===============================
-
 let data = JSON.parse(
   localStorage.getItem("data")
 ) || {
 
   productos: [],
-
   ventas: []
 };
 
-// ===============================
-// 🚀 INICIO
-// ===============================
+let editandoId = null;
 
 init();
 
@@ -24,9 +17,7 @@ function init() {
   render();
 }
 
-// ===============================
-// 🔻 CAMBIAR TAB
-// ===============================
+/* TABS */
 
 function cambiarTab(tab) {
 
@@ -41,71 +32,186 @@ function cambiarTab(tab) {
     .classList.add("activa");
 }
 
-// ===============================
-// 📦 AGREGAR PRODUCTO
-// ===============================
+/* MODAL */
 
-function agregarProducto() {
+function abrirModalNuevo() {
+
+  editandoId = null;
+
+  document.getElementById(
+    "modalTitulo"
+  ).innerText =
+    "Nuevo producto";
+
+  limpiarModal();
+
+  document
+    .getElementById("modal")
+    .classList.add("show");
+}
+
+function abrirModalEditar(id) {
+
+  editandoId = id;
+
+  const p =
+    data.productos.find(
+      x => x.id === id
+    );
+
+  if (!p) return;
+
+  document.getElementById(
+    "modalTitulo"
+  ).innerText =
+    "Editar producto";
+
+  document.getElementById(
+    "mNombre"
+  ).value = p.nombre;
+
+  document.getElementById(
+    "mCategoria"
+  ).value =
+    p.categoria || "";
+
+  document.getElementById(
+    "mPrecio"
+  ).value = p.precio;
+
+  document.getElementById(
+    "mCosto"
+  ).value = p.costo;
+
+  document.getElementById(
+    "mStock"
+  ).value = p.stock;
+
+  document.getElementById(
+    "mAgregarStock"
+  ).value = "";
+
+  document
+    .getElementById("modal")
+    .classList.add("show");
+}
+
+function cerrarModal() {
+
+  document
+    .getElementById("modal")
+    .classList.remove("show");
+}
+
+function limpiarModal() {
+
+  [
+    "mNombre",
+    "mCategoria",
+    "mPrecio",
+    "mCosto",
+    "mStock",
+    "mAgregarStock"
+  ].forEach(id => {
+
+    document.getElementById(id)
+      .value = "";
+  });
+}
+
+/* GUARDAR */
+
+function guardarProductoModal() {
 
   const nombre =
-    document.getElementById("nombre")
-      .value
-      .trim();
+    document.getElementById(
+      "mNombre"
+    ).value.trim();
+
+  const categoria =
+    document.getElementById(
+      "mCategoria"
+    ).value.trim();
 
   const precio =
     parseFloat(
-      document.getElementById("precio").value
+      document.getElementById(
+        "mPrecio"
+      ).value
     );
 
   const costo =
     parseFloat(
-      document.getElementById("costo").value
+      document.getElementById(
+        "mCosto"
+      ).value
     );
 
   const stock =
     parseInt(
-      document.getElementById("stock").value
+      document.getElementById(
+        "mStock"
+      ).value
     );
 
+  const agregarStock =
+    parseInt(
+      document.getElementById(
+        "mAgregarStock"
+      ).value
+    ) || 0;
+
   if (!nombre) {
-    return mensaje("Escribe un nombre");
+    return mensaje("Escribe nombre");
   }
 
-  if (
-    isNaN(precio) ||
-    isNaN(costo) ||
-    isNaN(stock)
-  ) {
-    return mensaje("Completa todo");
+  if (isNaN(precio)) {
+    return mensaje("Precio inválido");
   }
 
-  data.productos.push({
+  if (editandoId) {
 
-    id: Date.now(),
+    const p =
+      data.productos.find(
+        x => x.id === editandoId
+      );
 
-    nombre,
+    p.nombre = nombre;
+    p.categoria = categoria;
+    p.precio = precio;
+    p.costo = costo;
+    p.stock =
+      stock + agregarStock;
 
-    precio,
+    mensaje("Producto actualizado");
+  }
 
-    costo,
+  else {
 
-    stock,
+    data.productos.push({
 
-    vendidos: 0
-  });
+      id: Date.now(),
+
+      nombre,
+      categoria,
+      precio,
+      costo,
+      stock,
+
+      vendidos: 0
+    });
+
+    mensaje("Producto agregado");
+  }
 
   guardar();
 
-  limpiarInputs();
+  cerrarModal();
 
   render();
-
-  mensaje("Producto agregado");
 }
 
-// ===============================
-// 🛒 VENDER
-// ===============================
+/* VENDER */
 
 function venderProducto(id) {
 
@@ -121,8 +227,9 @@ function venderProducto(id) {
   }
 
   const metodo =
-    document.getElementById("metodo")
-      .value;
+    document.getElementById(
+      "metodo"
+    ).value;
 
   const ganancia =
     p.precio - p.costo;
@@ -140,11 +247,12 @@ function venderProducto(id) {
     metodo,
 
     fecha:
-      new Date().toLocaleTimeString()
+      new Date().toLocaleTimeString(),
+
+    anulada: false
   });
 
   p.stock--;
-
   p.vendidos++;
 
   guardar();
@@ -156,15 +264,14 @@ function venderProducto(id) {
   mensaje("Venta registrada");
 }
 
-// ===============================
-// ⚡ VENTA RÁPIDA
-// ===============================
+/* VENTA RAPIDA */
 
 function ventaRapida(monto) {
 
   const metodo =
-    document.getElementById("metodo")
-      .value;
+    document.getElementById(
+      "metodo"
+    ).value;
 
   data.ventas.push({
 
@@ -179,78 +286,19 @@ function ventaRapida(monto) {
     metodo,
 
     fecha:
-      new Date().toLocaleTimeString()
+      new Date().toLocaleTimeString(),
+
+    anulada: false
   });
 
   guardar();
 
   render();
 
-  vibrar();
-
   mensaje("Venta agregada");
 }
 
-// ===============================
-// ✏️ EDITAR
-// ===============================
-
-function editarProducto(id) {
-
-  const p =
-    data.productos.find(
-      x => x.id === id
-    );
-
-  if (!p) return;
-
-  const nombre =
-    prompt(
-      "Nombre",
-      p.nombre
-    );
-
-  if (!nombre) return;
-
-  const precio =
-    parseFloat(
-      prompt(
-        "Precio",
-        p.precio
-      )
-    );
-
-  const costo =
-    parseFloat(
-      prompt(
-        "Costo",
-        p.costo
-      )
-    );
-
-  const stock =
-    parseInt(
-      prompt(
-        "Stock",
-        p.stock
-      )
-    );
-
-  p.nombre = nombre;
-  p.precio = precio;
-  p.costo = costo;
-  p.stock = stock;
-
-  guardar();
-
-  render();
-
-  mensaje("Producto actualizado");
-}
-
-// ===============================
-// 🗑 ELIMINAR
-// ===============================
+/* ELIMINAR PRODUCTO */
 
 function eliminarProducto(id) {
 
@@ -273,9 +321,27 @@ function eliminarProducto(id) {
   mensaje("Producto eliminado");
 }
 
-// ===============================
-// 📊 RENDER
-// ===============================
+/* ANULAR */
+
+function anularVenta(id) {
+
+  const venta =
+    data.ventas.find(
+      v => v.id === id
+    );
+
+  if (!venta) return;
+
+  venta.anulada = true;
+
+  guardar();
+
+  render();
+
+  mensaje("Venta anulada");
+}
+
+/* RENDER */
 
 function render() {
 
@@ -286,67 +352,98 @@ function render() {
   renderHistorial();
 
   renderDashboard();
+
+  renderTopProducto();
 }
 
-// ===============================
-// 📊 RESUMEN
-// ===============================
+/* RESUMEN */
 
 function renderResumen() {
 
   let total = 0;
-
   let ganancia = 0;
 
   data.ventas.forEach(v => {
 
-    total += v.monto;
+    if (!v.anulada) {
 
-    ganancia += v.ganancia;
+      total += v.monto;
+
+      ganancia += v.ganancia;
+    }
   });
 
-  document.getElementById("ventas")
-    .innerText =
-      "S/ " + total;
+  document.getElementById(
+    "ventas"
+  ).innerText =
+    "S/ " + total;
 
-  document.getElementById("ganancia")
-    .innerText =
-      "S/ " + ganancia;
+  document.getElementById(
+    "ganancia"
+  ).innerText =
+    "S/ " + ganancia;
 
-  document.getElementById("transacciones")
-    .innerText =
-      data.ventas.length;
+  document.getElementById(
+    "transacciones"
+  ).innerText =
+    data.ventas.filter(
+      v => !v.anulada
+    ).length;
 
   const estado =
-    document.getElementById("estado");
+    document.getElementById(
+      "estado"
+    );
 
   if (ganancia > 200) {
-
     estado.innerText =
       "Excelente día 🚀";
   }
 
   else if (ganancia > 50) {
-
     estado.innerText =
       "Buen día 🟢";
   }
 
   else {
-
     estado.innerText =
       "Día tranquilo 🟡";
   }
 }
 
-// ===============================
-// 📦 PRODUCTOS
-// ===============================
+/* TOP PRODUCTO */
+
+function renderTopProducto() {
+
+  if (!data.productos.length) {
+
+    document.getElementById(
+      "topProducto"
+    ).innerText =
+      "Agrega productos para empezar";
+    return;
+  }
+
+  let top =
+    data.productos.sort(
+      (a,b) =>
+        b.vendidos - a.vendidos
+    )[0];
+
+  document.getElementById(
+    "topProducto"
+  ).innerText =
+    `🔥 Más vendido: ${top.nombre}`;
+}
+
+/* PRODUCTOS */
 
 function renderProductos() {
 
   const cont =
-    document.getElementById("productos");
+    document.getElementById(
+      "productos"
+    );
 
   cont.innerHTML = "";
 
@@ -358,7 +455,9 @@ function renderProductos() {
 
         <div class="producto-top">
 
-          <b>${p.nombre}</b>
+          <b>
+            ${p.nombre}
+          </b>
 
           <div class="badge">
             ${p.stock} stock
@@ -366,26 +465,28 @@ function renderProductos() {
 
         </div>
 
-        💰 Precio:
-        S/${p.precio}<br>
-
-        📈 Ganancia:
-        S/${p.precio - p.costo}<br>
-
-        🔥 Vendidos:
-        ${p.vendidos}
+        🏷 ${p.categoria || "General"}<br>
+        💰 Precio: S/${p.precio}<br>
+        📈 Ganancia: S/${p.precio - p.costo}<br>
+        🔥 Vendidos: ${p.vendidos}
 
         <div class="producto-buttons">
 
-          <button onclick="venderProducto(${p.id})">
+          <button
+            onclick="venderProducto(${p.id})"
+          >
             Vender
           </button>
 
-          <button onclick="editarProducto(${p.id})">
+          <button
+            onclick="abrirModalEditar(${p.id})"
+          >
             Editar
           </button>
 
-          <button onclick="eliminarProducto(${p.id})">
+          <button
+            onclick="eliminarProducto(${p.id})"
+          >
             Eliminar
           </button>
 
@@ -397,14 +498,14 @@ function renderProductos() {
   });
 }
 
-// ===============================
-// 📜 HISTORIAL
-// ===============================
+/* HISTORIAL */
 
 function renderHistorial() {
 
   const cont =
-    document.getElementById("historial");
+    document.getElementById(
+      "historial"
+    );
 
   cont.innerHTML = "";
 
@@ -413,19 +514,15 @@ function renderHistorial() {
     .reverse()
     .forEach(v => {
 
-      const metodo =
-        v.metodo || "efectivo";
-
-      const fecha =
-        v.fecha || "--:--";
-
       cont.innerHTML += `
 
         <div class="historial-item">
 
           <div class="historial-top">
 
-            <b>${v.producto}</b>
+            <b>
+              ${v.producto}
+            </b>
 
             <span>
               S/${v.monto}
@@ -433,8 +530,25 @@ function renderHistorial() {
 
           </div>
 
-          ${metodo}
-          • ${fecha}
+          <div class="historial-info">
+
+            ${v.metodo}
+            • ${v.fecha}
+
+          </div>
+
+          ${
+            v.anulada
+            ? "<b style='color:red'>ANULADA</b>"
+            : `
+              <button
+                class="btn-eliminar"
+                onclick="anularVenta(${v.id})"
+              >
+                Anular venta
+              </button>
+            `
+          }
 
         </div>
 
@@ -442,9 +556,7 @@ function renderHistorial() {
     });
 }
 
-// ===============================
-// 📊 DASHBOARD
-// ===============================
+/* DASHBOARD */
 
 function renderDashboard() {
 
@@ -455,6 +567,8 @@ function renderDashboard() {
   let stockBajo = [];
 
   data.ventas.forEach(v => {
+
+    if (v.anulada) return;
 
     if (v.metodo === "efectivo") {
       efectivo += v.monto;
@@ -479,12 +593,9 @@ function renderDashboard() {
   const total =
     efectivo + yape + plin || 1;
 
-  const dashboard =
-    document.getElementById(
-      "dashboardPro"
-    );
-
-  dashboard.innerHTML = `
+  document.getElementById(
+    "dashboardPro"
+  ).innerHTML = `
 
     <div class="dashboard-card">
 
@@ -496,20 +607,24 @@ function renderDashboard() {
 
         <div class="stat-box">
 
-          <small>Total ventas</small>
+          <small>
+            Productos
+          </small>
 
           <b>
-            ${data.ventas.length}
+            ${data.productos.length}
           </b>
 
         </div>
 
         <div class="stat-box">
 
-          <small>Productos</small>
+          <small>
+            Ventas
+          </small>
 
           <b>
-            ${data.productos.length}
+            ${data.ventas.length}
           </b>
 
         </div>
@@ -605,31 +720,26 @@ function renderDashboard() {
     ">
 
       <h3>
-        ⚠️ Alertas
+        ⚠️ Stock bajo
       </h3>
 
       ${
-        stockBajo.length > 0
-
+        stockBajo.length
         ? stockBajo
             .map(p => `
               <div class="stock-bajo">
-                📦 ${p} con poco stock
+                📦 ${p}
               </div>
             `)
             .join("")
-
         : "Todo bien ✅"
       }
 
     </div>
-
   `;
 }
 
-// ===============================
-// 📄 EXPORTAR
-// ===============================
+/* EXPORTAR */
 
 function exportar() {
 
@@ -638,11 +748,12 @@ function exportar() {
 
   data.ventas.forEach(v => {
 
-    texto +=
-`${v.producto}
+    texto += `
+${v.producto}
 S/${v.monto}
 ${v.metodo}
-
+${v.anulada ? "ANULADA" : ""}
+----------------
 `;
   });
 
@@ -664,9 +775,7 @@ ${v.metodo}
   link.click();
 }
 
-// ===============================
-// 💾 GUARDAR
-// ===============================
+/* UTIL */
 
 function guardar() {
 
@@ -676,45 +785,19 @@ function guardar() {
   );
 }
 
-// ===============================
-// 📳 VIBRAR
-// ===============================
-
 function vibrar() {
 
   if (navigator.vibrate) {
-
     navigator.vibrate(50);
   }
 }
 
-// ===============================
-// 🧹 LIMPIAR
-// ===============================
-
-function limpiarInputs() {
-
-  document.getElementById("nombre")
-    .value = "";
-
-  document.getElementById("precio")
-    .value = "";
-
-  document.getElementById("costo")
-    .value = "";
-
-  document.getElementById("stock")
-    .value = "";
-}
-
-// ===============================
-// 🔔 MENSAJES
-// ===============================
-
 function mensaje(txt) {
 
   const el =
-    document.getElementById("mensaje");
+    document.getElementById(
+      "mensaje"
+    );
 
   el.innerText = txt;
 
