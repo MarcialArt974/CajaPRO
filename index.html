@@ -25,143 +25,142 @@
   <div class="app">
 
     <!-- =========================
-         💰 HEADER
+         🏠 INICIO
     ========================== -->
-
-    <div class="header">
-
-      <div class="header-top">
-
-        <div>
-
-          <p class="mini">
-            CajaPRO
-          </p>
-
-          <h1 id="ganancia">
-            S/ 0
-          </h1>
-
-          <span id="estado">
-            Iniciando...
-          </span>
-
-        </div>
-
-        <div class="logo-circle">
-          💰
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- =========================
-         📊 RESUMEN
-    ========================== -->
-
-    <div class="cards">
-
-      <div class="card">
-
-        <span>
-          Ventas
-        </span>
-
-        <b id="ventas">
-          S/ 0
-        </b>
-
-      </div>
-
-      <div class="card">
-
-        <span>
-          Transacciones
-        </span>
-
-        <b id="transacciones">
-          0
-        </b>
-
-      </div>
-
-    </div>
-
-    <!-- 🔥 PRODUCTO TOP -->
 
     <div
-      id="topProducto"
-      class="destacado"
-    ></div>
+      id="inicio"
+      class="pantalla activa"
+    >
 
-    <!-- 📊 DASHBOARD -->
+      <!-- 💰 HEADER -->
 
-    <div id="dashboardPro"></div>
+      <div class="header">
 
-    <!-- =========================
-         ⚡ VENTA RÁPIDA
-    ========================== -->
+        <div class="header-top">
 
-    <div class="seccion">
+          <div>
 
-      <div class="titulo-row">
+            <p class="mini">
+              CajaPRO
+            </p>
+
+            <h1 id="ganancia">
+              S/ 0
+            </h1>
+
+            <span id="estado">
+              Iniciando...
+            </span>
+
+          </div>
+
+          <div class="logo-circle">
+            💰
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- 📊 CARDS -->
+
+      <div class="cards">
+
+        <div class="card">
+
+          <span>
+            Ventas
+          </span>
+
+          <b id="ventas">
+            S/ 0
+          </b>
+
+        </div>
+
+        <div class="card">
+
+          <span>
+            Transacciones
+          </span>
+
+          <b id="transacciones">
+            0
+          </b>
+
+        </div>
+
+      </div>
+
+      <!-- 🔥 PRODUCTO TOP -->
+
+      <div
+        id="topProducto"
+        class="destacado"
+      ></div>
+
+      <!-- 📊 DASHBOARD -->
+
+      <div id="dashboardPro"></div>
+
+      <!-- ⚡ VENTA RÁPIDA -->
+
+      <div class="seccion">
 
         <h3>
           Venta rápida
         </h3>
 
+        <div class="rapido">
+
+          <button
+            onclick="ventaRapida(5)"
+          >
+            + S/5
+          </button>
+
+          <button
+            onclick="ventaRapida(10)"
+          >
+            + S/10
+          </button>
+
+          <button
+            onclick="ventaRapida(20)"
+          >
+            + S/20
+          </button>
+
+        </div>
+
       </div>
 
-      <div class="rapido">
+      <!-- 💳 MÉTODO -->
 
-        <button
-          onclick="ventaRapida(5)"
-        >
-          + S/5
-        </button>
+      <div class="seccion">
 
-        <button
-          onclick="ventaRapida(10)"
-        >
-          + S/10
-        </button>
+        <h3>
+          Método de pago
+        </h3>
 
-        <button
-          onclick="ventaRapida(20)"
-        >
-          + S/20
-        </button>
+        <select id="metodo">
+
+          <option value="efectivo">
+            💵 Efectivo
+          </option>
+
+          <option value="yape">
+            📱 Yape
+          </option>
+
+          <option value="plin">
+            📲 Plin
+          </option>
+
+        </select>
 
       </div>
-
-    </div>
-
-    <!-- =========================
-         💳 MÉTODO DE PAGO
-    ========================== -->
-
-    <div class="seccion">
-
-      <h3>
-        Método de pago
-      </h3>
-
-      <select id="metodo">
-
-        <option value="efectivo">
-          💵 Efectivo
-        </option>
-
-        <option value="yape">
-          📱 Yape
-        </option>
-
-        <option value="plin">
-          📲 Plin
-        </option>
-
-      </select>
 
     </div>
 
@@ -169,59 +168,60 @@
          📦 PRODUCTOS
     ========================== -->
 
-    <div class="seccion">
+    <div
+      id="productosTab"
+      class="pantalla"
+    >
 
-      <div class="titulo-row">
+      <div class="seccion">
 
-        <h3>
+        <h2>
           Productos
-        </h3>
+        </h2>
+
+        <div id="productos"></div>
 
       </div>
 
-      <div id="productos"></div>
+      <!-- ➕ AGREGAR -->
 
-    </div>
+      <div class="seccion">
 
-    <!-- =========================
-         ➕ AGREGAR PRODUCTO
-    ========================== -->
+        <h3>
+          Agregar producto
+        </h3>
 
-    <div class="seccion">
+        <input
+          id="nombre"
+          placeholder="Nombre del producto"
+        />
 
-      <h3>
-        Agregar producto
-      </h3>
+        <input
+          id="precio"
+          type="number"
+          placeholder="Precio"
+        />
 
-      <input
-        id="nombre"
-        placeholder="Nombre del producto"
-      />
+        <input
+          id="costo"
+          type="number"
+          placeholder="Costo"
+        />
 
-      <input
-        id="precio"
-        type="number"
-        placeholder="Precio"
-      />
+        <input
+          id="stock"
+          type="number"
+          placeholder="Stock"
+        />
 
-      <input
-        id="costo"
-        type="number"
-        placeholder="Costo"
-      />
+        <button
+          class="btn-full"
+          onclick="agregarProducto()"
+        >
+          Agregar producto
+        </button>
 
-      <input
-        id="stock"
-        type="number"
-        placeholder="Stock"
-      />
-
-      <button
-        class="btn-full"
-        onclick="agregarProducto()"
-      >
-        Agregar producto
-      </button>
+      </div>
 
     </div>
 
@@ -229,41 +229,70 @@
          📜 HISTORIAL
     ========================== -->
 
-    <div class="seccion">
+    <div
+      id="historialTab"
+      class="pantalla"
+    >
 
-      <div class="titulo-row">
+      <div class="seccion">
 
-        <h3>
-          Historial
-        </h3>
+        <div class="titulo-row">
 
-        <button
-          class="mini-btn"
-          onclick="exportar()"
-        >
-          Descargar
-        </button>
+          <h2>
+            Historial
+          </h2>
+
+          <button
+            class="mini-btn"
+            onclick="exportar()"
+          >
+            Descargar
+          </button>
+
+        </div>
+
+        <div id="historial"></div>
 
       </div>
-
-      <div id="historial"></div>
 
     </div>
 
   </div>
 
   <!-- =========================
-       🔔 MENSAJES
+       🔻 NAVBAR
+  ========================== -->
+
+  <div class="navbar">
+
+    <button
+      onclick="cambiarTab('inicio')"
+    >
+      🏠
+    </button>
+
+    <button
+      onclick="cambiarTab('productosTab')"
+    >
+      📦
+    </button>
+
+    <button
+      onclick="cambiarTab('historialTab')"
+    >
+      📊
+    </button>
+
+  </div>
+
+  <!-- =========================
+       🔔 MENSAJE
   ========================== -->
 
   <div
     id="mensaje"
     class="mensaje"
   ></div>
-
-  <!-- =========================
-       📜 JS
-  ========================== -->
 
   <script src="app.js"></script>
 
