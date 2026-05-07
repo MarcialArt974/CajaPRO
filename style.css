@@ -1,9 +1,5 @@
 /* style.css */
 
-/* =========================
-   🌐 BASE
-========================= */
-
 * {
 
   margin: 0;
@@ -15,23 +11,17 @@
 
 body {
 
-  font-family:
-    Arial,
-    sans-serif;
+  font-family: Arial, sans-serif;
 
   background:
     linear-gradient(
       180deg,
-      #f2fff6,
+      #f3fff7,
       #ffffff
     );
 
   color: #222;
 }
-
-/* =========================
-   📱 APP
-========================= */
 
 .app {
 
@@ -44,9 +34,7 @@ body {
   padding-bottom: 90px;
 }
 
-/* =========================
-   📱 PANTALLAS
-========================= */
+/* PANTALLAS */
 
 .pantalla {
 
@@ -58,9 +46,7 @@ body {
   display: block;
 }
 
-/* =========================
-   💰 HEADER
-========================= */
+/* HEADER */
 
 .header {
 
@@ -111,27 +97,19 @@ body {
   justify-content: center;
 
   font-size: 30px;
-
-  backdrop-filter: blur(10px);
-}
-
-.mini {
-
-  opacity: 0.9;
-
-  margin-bottom: 5px;
 }
 
 .header h1 {
 
   font-size: 42px;
+}
+
+.mini {
 
   margin-bottom: 5px;
 }
 
-/* =========================
-   📊 CARDS
-========================= */
+/* CARDS */
 
 .cards {
 
@@ -150,18 +128,11 @@ body {
 
   padding: 18px;
 
-  border-radius: 22px;
+  border-radius: 20px;
 
   box-shadow:
     0 6px 18px
     rgba(0,0,0,0.05);
-}
-
-.card span {
-
-  color: #777;
-
-  font-size: 14px;
 }
 
 .card b {
@@ -173,17 +144,15 @@ body {
   font-size: 24px;
 }
 
-/* =========================
-   🔥 DESTACADO
-========================= */
+/* DESTACADO */
 
 .destacado {
 
   background:
     linear-gradient(
       135deg,
-      #fff7d6,
-      #fff0b3
+      #fff5c4,
+      #ffe99c
     );
 
   padding: 16px;
@@ -195,9 +164,7 @@ body {
   font-weight: bold;
 }
 
-/* =========================
-   📦 SECCIONES
-========================= */
+/* SECCIONES */
 
 .seccion {
 
@@ -225,9 +192,7 @@ body {
   margin-bottom: 12px;
 }
 
-/* =========================
-   ⚡ BOTONES
-========================= */
+/* BOTONES */
 
 button {
 
@@ -247,10 +212,6 @@ button {
   border-radius: 14px;
 
   cursor: pointer;
-
-  transition: 0.2s;
-
-  font-size: 14px;
 
   font-weight: bold;
 }
@@ -274,9 +235,7 @@ button:active {
   font-size: 12px;
 }
 
-/* =========================
-   ⚡ VENTA RÁPIDA
-========================= */
+/* RAPIDO */
 
 .rapido {
 
@@ -292,9 +251,7 @@ button:active {
   flex: 1;
 }
 
-/* =========================
-   🧾 INPUTS
-========================= */
+/* INPUTS */
 
 input,
 select {
@@ -309,14 +266,12 @@ select {
 
   border: 1px solid #ddd;
 
-  font-size: 15px;
-
   background: #fafafa;
+
+  font-size: 15px;
 }
 
-/* =========================
-   📦 PRODUCTOS
-========================= */
+/* PRODUCTOS */
 
 .producto {
 
@@ -328,8 +283,7 @@ select {
 
   margin-bottom: 12px;
 
-  border:
-    1px solid #eee;
+  border: 1px solid #eee;
 }
 
 .producto-top {
@@ -372,9 +326,7 @@ select {
   flex: 1;
 }
 
-/* =========================
-   📜 HISTORIAL
-========================= */
+/* HISTORIAL */
 
 .historial-item {
 
@@ -386,8 +338,7 @@ select {
 
   margin-bottom: 10px;
 
-  border:
-    1px solid #eee;
+  border: 1px solid #eee;
 }
 
 .historial-top {
@@ -399,9 +350,32 @@ select {
   margin-bottom: 6px;
 }
 
-/* =========================
-   📊 DASHBOARD
-========================= */
+.historial-info {
+
+  margin-top: 6px;
+
+  color: #666;
+
+  font-size: 14px;
+}
+
+/* ELIMINAR */
+
+.btn-eliminar {
+
+  margin-top: 10px;
+
+  width: 100%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e74c3c,
+      #ff6b5f
+    );
+}
+
+/* DASHBOARD */
 
 .dashboard-card {
 
@@ -438,11 +412,6 @@ select {
   text-align: center;
 }
 
-.stat-box small {
-
-  color: #777;
-}
-
 .stat-box b {
 
   display: block;
@@ -452,9 +421,7 @@ select {
   font-size: 22px;
 }
 
-/* =========================
-   📊 BARRAS
-========================= */
+/* BARRAS */
 
 .barra-container {
 
@@ -468,8 +435,6 @@ select {
   justify-content: space-between;
 
   margin-bottom: 6px;
-
-  font-size: 14px;
 }
 
 .barra {
@@ -486,8 +451,6 @@ select {
 .barra-fill {
 
   height: 100%;
-
-  border-radius: 999px;
 }
 
 .efectivo {
@@ -505,16 +468,13 @@ select {
   background: #00bcd4;
 }
 
-/* =========================
-   ⚠️ ALERTAS
-========================= */
+/* ALERTA */
 
 .alerta-card {
 
   background: #fff7e6;
 
-  border-left:
-    5px solid orange;
+  border-left: 5px solid orange;
 }
 
 .stock-bajo {
@@ -526,9 +486,7 @@ select {
   font-weight: bold;
 }
 
-/* =========================
-   🔻 NAVBAR
-========================= */
+/* NAVBAR */
 
 .navbar {
 
@@ -570,9 +528,62 @@ select {
   font-size: 24px;
 }
 
-/* =========================
-   🔔 MENSAJE
-========================= */
+/* MODAL */
+
+.modal {
+
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    rgba(0,0,0,0.5);
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+
+  z-index: 999;
+}
+
+.modal.show {
+
+  display: flex;
+}
+
+.modal-box {
+
+  background: white;
+
+  width: 100%;
+
+  max-width: 420px;
+
+  border-radius: 24px;
+
+  padding: 22px;
+
+  animation: aparecer 0.2s ease;
+}
+
+.cerrar {
+
+  background: #eee;
+
+  color: #222;
+
+  width: 40px;
+
+  height: 40px;
+
+  border-radius: 50%;
+}
+
+/* MENSAJE */
 
 .mensaje {
 
@@ -599,10 +610,29 @@ select {
 
   pointer-events: none;
 
-  z-index: 999;
+  z-index: 9999;
 }
 
 .mensaje.show {
 
   opacity: 1;
+}
+
+/* ANIMACION */
+
+@keyframes aparecer {
+
+  from {
+
+    opacity: 0;
+
+    transform: scale(0.9);
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: scale(1);
+  }
 }
