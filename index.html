@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caja PRO</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- 🏠 INICIO -->
+    <div id="inicio" class="pantalla activa">
+
+      <!-- 💰 HEADER -->
+      <div class="header">
+
+        <p>Hoy ganaste</p>
+
+        <h1 id="ganancia">
+          S/ 0
+        </h1>
+
+        <span id="estado"></span>
+
+      </div>
+
+      <!-- 📊 CARDS -->
+      <div class="cards">
+
+        <div class="card">
+          <p>Ventas</p>
+          <b id="ventas">S/ 0</b>
+        </div>
+
+        <div class="card">
+          <p>Transacciones</p>
+          <b id="transacciones">0</b>
+        </div>
+
+      </div>
+
+      <!-- 🔥 PRODUCTO TOP -->
+      <div id="topProducto" class="destacado"></div>
+
+      <!-- 📊 DASHBOARD PRO -->
+      <div id="dashboardPro"></div>
+
+      <!-- ⚡ VENTA RÁPIDA -->
+      <h3>Venta rápida</h3>
+
+      <div class="rapido">
+
+        <button onclick="ventaRapida(5)">
+          + S/5
+        </button>
+
+        <button onclick="ventaRapida(10)">
+          + S/10
+        </button>
+
+        <button onclick="ventaRapida(20)">
+          + S/20
+        </button>
+
+      </div>
+
+      <!-- 💳 MÉTODO -->
+      <h3>Método de pago</h3>
+
+      <select id="metodo">
+
+        <option value="efectivo">
+          💵 Efectivo
+        </option>
+
+        <option value="yape">
+          📱 Yape
+        </option>
+
+        <option value="plin">
+          📲 Plin
+        </option>
+
+      </select>
+
+    </div>
+
+    <!-- 📦 PRODUCTOS -->
+    <div id="productosTab" class="pantalla">
+
+      <h2>Productos</h2>
+
+      <div id="productos"></div>
+
+      <h3>Agregar producto</h3>
+
+      <input
+        id="nombre"
+        placeholder="Nombre del producto"
+      >
+
+      <input
+        id="precio"
+        type="number"
+        placeholder="Precio"
+      >
+
+      <input
+        id="costo"
+        type="number"
+        placeholder="Costo"
+      >
+
+      <input
+        id="stock"
+        type="number"
+        placeholder="Stock"
+      >
+
+      <button onclick="agregarProducto()">
+        Agregar producto
+      </button>
+
+    </div>
+
+    <!-- 📜 HISTORIAL -->
+    <div id="historialTab" class="pantalla">
+
+      <h2>Historial</h2>
+
+      <div id="historial"></div>
+
+      <button onclick="exportar()">
+        📄 Descargar resumen
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- 🔻 NAVBAR -->
+  <div class="navbar">
+
+    <button onclick="cambiarTab('inicio')">
+      🏠
+    </button>
+
+    <button onclick="cambiarTab('productosTab')">
+      📦
+    </button>
+
+    <button onclick="cambiarTab('historialTab')">
+      📊
+    </button>
+
+  </div>
+
+  <!-- 🔔 MENSAJES -->
+  <p id="mensaje"></p>
+
+  <script src="app.js"></script>
+
+</body>
+
+</html>

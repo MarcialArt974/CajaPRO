@@ -1,0 +1,420 @@
+/* 🌐 BASE */
+
+body {
+
+  margin: 0;
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  background:
+    linear-gradient(
+      180deg,
+      #e8f5e9,
+      #ffffff
+    );
+}
+
+/* 📱 APP */
+
+.app {
+
+  max-width: 480px;
+
+  margin: auto;
+
+  padding: 15px;
+
+  padding-bottom: 90px;
+}
+
+/* 💰 HEADER */
+
+.header {
+
+  background:
+    linear-gradient(
+      135deg,
+      #2ecc71,
+      #27ae60
+    );
+
+  color: white;
+
+  padding: 20px;
+
+  border-radius: 20px;
+
+  text-align: center;
+
+  box-shadow:
+    0 5px 15px
+    rgba(0,0,0,0.1);
+
+  animation:
+    fadeIn 0.4s ease;
+}
+
+.header h1 {
+
+  font-size: 42px;
+
+  margin: 10px 0;
+}
+
+/* 📊 CARDS */
+
+.cards {
+
+  display: flex;
+
+  gap: 10px;
+
+  margin: 15px 0;
+}
+
+.card {
+
+  flex: 1;
+
+  background: white;
+
+  padding: 15px;
+
+  border-radius: 16px;
+
+  text-align: center;
+
+  box-shadow:
+    0 4px 10px
+    rgba(0,0,0,0.05);
+}
+
+/* 🔥 DESTACADO */
+
+.destacado {
+
+  background: #fff8e1;
+
+  padding: 12px;
+
+  border-radius: 14px;
+
+  margin-bottom: 12px;
+
+  font-weight: bold;
+}
+
+/* ⚡ BOTONES */
+
+button {
+
+  border: none;
+
+  background: #2ecc71;
+
+  color: white;
+
+  padding: 12px;
+
+  border-radius: 12px;
+
+  font-size: 15px;
+
+  transition: 0.2s;
+}
+
+button:active {
+
+  transform: scale(0.96);
+}
+
+/* ⚡ VENTA RÁPIDA */
+
+.rapido {
+
+  display: flex;
+
+  gap: 10px;
+}
+
+.rapido button {
+
+  flex: 1;
+}
+
+/* 📦 PRODUCTOS */
+
+.producto {
+
+  background: white;
+
+  padding: 14px;
+
+  border-radius: 14px;
+
+  margin: 10px 0;
+
+  box-shadow:
+    0 4px 10px
+    rgba(0,0,0,0.05);
+
+  animation:
+    fadeIn 0.3s ease;
+}
+
+/* 📜 HISTORIAL */
+
+#historial div {
+
+  background: white;
+
+  padding: 12px;
+
+  border-radius: 12px;
+
+  margin: 8px 0;
+
+  box-shadow:
+    0 4px 10px
+    rgba(0,0,0,0.05);
+}
+
+/* 🧾 INPUTS */
+
+input,
+select {
+
+  width: 100%;
+
+  padding: 12px;
+
+  margin: 6px 0;
+
+  border-radius: 12px;
+
+  border: 1px solid #ddd;
+
+  box-sizing: border-box;
+}
+
+/* 🔻 NAVBAR */
+
+.navbar {
+
+  position: fixed;
+
+  bottom: 0;
+
+  width: 100%;
+
+  max-width: 480px;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  display: flex;
+
+  justify-content: space-around;
+
+  background: white;
+
+  padding: 10px;
+
+  box-shadow:
+    0 -5px 15px
+    rgba(0,0,0,0.1);
+}
+
+.navbar button {
+
+  background: none;
+
+  color: #555;
+
+  font-size: 22px;
+}
+
+/* 📱 PANTALLAS */
+
+.pantalla {
+
+  display: none;
+}
+
+.pantalla.activa {
+
+  display: block;
+}
+
+/* 🔔 MENSAJES */
+
+#mensaje {
+
+  position: fixed;
+
+  top: 10px;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  background: black;
+
+  color: white;
+
+  padding: 10px 15px;
+
+  border-radius: 10px;
+
+  font-size: 14px;
+}
+
+/* =========================
+   📊 DASHBOARD PRO
+========================= */
+
+#dashboardPro {
+
+  margin-top: 15px;
+}
+
+.dashboard-card {
+
+  background: white;
+
+  border-radius: 18px;
+
+  padding: 15px;
+
+  margin-bottom: 12px;
+
+  box-shadow:
+    0 4px 12px
+    rgba(0,0,0,0.05);
+}
+
+/* 📊 BARRAS */
+
+.barra-container {
+
+  margin: 10px 0;
+}
+
+.barra-label {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-bottom: 5px;
+
+  font-size: 14px;
+}
+
+.barra {
+
+  height: 12px;
+
+  border-radius: 20px;
+
+  background: #e0e0e0;
+
+  overflow: hidden;
+}
+
+.barra-fill {
+
+  height: 100%;
+
+  border-radius: 20px;
+
+  transition: 0.4s;
+}
+
+/* 💵 */
+
+.efectivo {
+
+  background: #2ecc71;
+}
+
+/* 📱 */
+
+.yape {
+
+  background: #7d3cff;
+}
+
+/* 📲 */
+
+.plin {
+
+  background: #00bcd4;
+}
+
+/* ⚠️ ALERTAS */
+
+.alerta-card {
+
+  background: #fff3cd;
+
+  border-left: 5px solid orange;
+}
+
+/* 📦 STOCK BAJO */
+
+.stock-bajo {
+
+  color: red;
+
+  font-weight: bold;
+}
+
+/* 📈 GRID */
+
+.stats-grid {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 10px;
+}
+
+.stat-box {
+
+  background: #f7f7f7;
+
+  padding: 12px;
+
+  border-radius: 12px;
+
+  text-align: center;
+}
+
+.stat-box b {
+
+  font-size: 18px;
+}
+
+/* ✨ ANIMACIONES */
+
+@keyframes fadeIn {
+
+  from {
+
+    opacity: 0;
+
+    transform: translateY(10px);
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
