@@ -93,7 +93,7 @@
 
       </div>
 
-      <!-- PRODUCTO TOP -->
+      <!-- TOP -->
 
       <div
         id="topProducto"
@@ -104,7 +104,7 @@
 
       <div id="dashboardPro"></div>
 
-      <!-- VENTA RÁPIDA -->
+      <!-- VENTA RAPIDA -->
 
       <div class="seccion">
 
@@ -114,21 +114,15 @@
 
         <div class="rapido">
 
-          <button
-            onclick="ventaRapida(5)"
-          >
+          <button onclick="ventaRapida(5)">
             + S/5
           </button>
 
-          <button
-            onclick="ventaRapida(10)"
-          >
+          <button onclick="ventaRapida(10)">
             + S/10
           </button>
 
-          <button
-            onclick="ventaRapida(20)"
-          >
+          <button onclick="ventaRapida(20)">
             + S/20
           </button>
 
@@ -136,7 +130,7 @@
 
       </div>
 
-      <!-- MÉTODO -->
+      <!-- METODO -->
 
       <div class="seccion">
 
@@ -213,12 +207,23 @@
             Historial
           </h2>
 
-          <button
-            class="mini-btn"
-            onclick="exportar()"
-          >
-            Descargar
-          </button>
+          <div class="acciones-top">
+
+            <button
+              class="mini-btn"
+              onclick="reiniciarCaja()"
+            >
+              Reiniciar caja
+            </button>
+
+            <button
+              class="mini-btn"
+              onclick="exportar()"
+            >
+              Descargar
+            </button>
+
+          </div>
 
         </div>
 
