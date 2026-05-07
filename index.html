@@ -1,76 +1,151 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Caja PRO</title>
 
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>CajaPRO</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  />
+
 </head>
 
 <body>
 
   <div class="app">
 
-    <!-- 🏠 INICIO -->
-    <div id="inicio" class="pantalla activa">
+    <!-- =========================
+         💰 HEADER
+    ========================== -->
 
-      <!-- 💰 HEADER -->
-      <div class="header">
+    <div class="header">
 
-        <p>Hoy ganaste</p>
+      <div class="header-top">
 
-        <h1 id="ganancia">
+        <div>
+
+          <p class="mini">
+            CajaPRO
+          </p>
+
+          <h1 id="ganancia">
+            S/ 0
+          </h1>
+
+          <span id="estado">
+            Iniciando...
+          </span>
+
+        </div>
+
+        <div class="logo-circle">
+          💰
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- =========================
+         📊 RESUMEN
+    ========================== -->
+
+    <div class="cards">
+
+      <div class="card">
+
+        <span>
+          Ventas
+        </span>
+
+        <b id="ventas">
           S/ 0
-        </h1>
-
-        <span id="estado"></span>
+        </b>
 
       </div>
 
-      <!-- 📊 CARDS -->
-      <div class="cards">
+      <div class="card">
 
-        <div class="card">
-          <p>Ventas</p>
-          <b id="ventas">S/ 0</b>
-        </div>
+        <span>
+          Transacciones
+        </span>
 
-        <div class="card">
-          <p>Transacciones</p>
-          <b id="transacciones">0</b>
-        </div>
+        <b id="transacciones">
+          0
+        </b>
 
       </div>
 
-      <!-- 🔥 PRODUCTO TOP -->
-      <div id="topProducto" class="destacado"></div>
+    </div>
 
-      <!-- 📊 DASHBOARD PRO -->
-      <div id="dashboardPro"></div>
+    <!-- 🔥 PRODUCTO TOP -->
 
-      <!-- ⚡ VENTA RÁPIDA -->
-      <h3>Venta rápida</h3>
+    <div
+      id="topProducto"
+      class="destacado"
+    ></div>
+
+    <!-- 📊 DASHBOARD -->
+
+    <div id="dashboardPro"></div>
+
+    <!-- =========================
+         ⚡ VENTA RÁPIDA
+    ========================== -->
+
+    <div class="seccion">
+
+      <div class="titulo-row">
+
+        <h3>
+          Venta rápida
+        </h3>
+
+      </div>
 
       <div class="rapido">
 
-        <button onclick="ventaRapida(5)">
+        <button
+          onclick="ventaRapida(5)"
+        >
           + S/5
         </button>
 
-        <button onclick="ventaRapida(10)">
+        <button
+          onclick="ventaRapida(10)"
+        >
           + S/10
         </button>
 
-        <button onclick="ventaRapida(20)">
+        <button
+          onclick="ventaRapida(20)"
+        >
           + S/20
         </button>
 
       </div>
 
-      <!-- 💳 MÉTODO -->
-      <h3>Método de pago</h3>
+    </div>
+
+    <!-- =========================
+         💳 MÉTODO DE PAGO
+    ========================== -->
+
+    <div class="seccion">
+
+      <h3>
+        Método de pago
+      </h3>
 
       <select id="metodo">
 
@@ -90,78 +165,105 @@
 
     </div>
 
-    <!-- 📦 PRODUCTOS -->
-    <div id="productosTab" class="pantalla">
+    <!-- =========================
+         📦 PRODUCTOS
+    ========================== -->
 
-      <h2>Productos</h2>
+    <div class="seccion">
+
+      <div class="titulo-row">
+
+        <h3>
+          Productos
+        </h3>
+
+      </div>
 
       <div id="productos"></div>
 
-      <h3>Agregar producto</h3>
+    </div>
+
+    <!-- =========================
+         ➕ AGREGAR PRODUCTO
+    ========================== -->
+
+    <div class="seccion">
+
+      <h3>
+        Agregar producto
+      </h3>
 
       <input
         id="nombre"
         placeholder="Nombre del producto"
-      >
+      />
 
       <input
         id="precio"
         type="number"
         placeholder="Precio"
-      >
+      />
 
       <input
         id="costo"
         type="number"
         placeholder="Costo"
-      >
+      />
 
       <input
         id="stock"
         type="number"
         placeholder="Stock"
-      >
+      />
 
-      <button onclick="agregarProducto()">
+      <button
+        class="btn-full"
+        onclick="agregarProducto()"
+      >
         Agregar producto
       </button>
 
     </div>
 
-    <!-- 📜 HISTORIAL -->
-    <div id="historialTab" class="pantalla">
+    <!-- =========================
+         📜 HISTORIAL
+    ========================== -->
 
-      <h2>Historial</h2>
+    <div class="seccion">
+
+      <div class="titulo-row">
+
+        <h3>
+          Historial
+        </h3>
+
+        <button
+          class="mini-btn"
+          onclick="exportar()"
+        >
+          Descargar
+        </button>
+
+      </div>
 
       <div id="historial"></div>
-
-      <button onclick="exportar()">
-        📄 Descargar resumen
-      </button>
 
     </div>
 
   </div>
 
-  <!-- 🔻 NAVBAR -->
-  <div class="navbar">
+  <!-- =========================
+       🔔 MENSAJES
+  ========================== -->
 
-    <button onclick="cambiarTab('inicio')">
-      🏠
-    </button>
+  <div
+    id="mensaje"
+    class="mensaje"
+  ></div>
 
-    <button onclick="cambiarTab('productosTab')">
-      📦
-    </button>
-
-    <button onclick="cambiarTab('historialTab')">
-      📊
-    </button>
-
-  </div>
-
-  <!-- 🔔 MENSAJES -->
-  <p id="mensaje"></p>
+  <!-- =========================
+       📜 JS
+  ========================== -->
 
   <script src="app.js"></script>
 
