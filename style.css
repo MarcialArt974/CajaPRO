@@ -41,7 +41,21 @@ body {
 
   padding: 16px;
 
-  padding-bottom: 50px;
+  padding-bottom: 90px;
+}
+
+/* =========================
+   📱 PANTALLAS
+========================= */
+
+.pantalla {
+
+  display: none;
+}
+
+.pantalla.activa {
+
+  display: block;
 }
 
 /* =========================
@@ -141,9 +155,6 @@ body {
   box-shadow:
     0 6px 18px
     rgba(0,0,0,0.05);
-
-  animation:
-    fadeIn 0.4s ease;
 }
 
 .card span {
@@ -272,6 +283,8 @@ button:active {
   display: flex;
 
   gap: 10px;
+
+  margin-top: 10px;
 }
 
 .rapido button {
@@ -514,6 +527,50 @@ select {
 }
 
 /* =========================
+   🔻 NAVBAR
+========================= */
+
+.navbar {
+
+  position: fixed;
+
+  bottom: 0;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 100%;
+
+  max-width: 500px;
+
+  display: flex;
+
+  justify-content: space-around;
+
+  padding: 12px;
+
+  background: white;
+
+  box-shadow:
+    0 -5px 20px
+    rgba(0,0,0,0.08);
+
+  border-top-left-radius: 20px;
+
+  border-top-right-radius: 20px;
+}
+
+.navbar button {
+
+  background: none;
+
+  color: #444;
+
+  font-size: 24px;
+}
+
+/* =========================
    🔔 MENSAJE
 ========================= */
 
@@ -548,25 +605,4 @@ select {
 .mensaje.show {
 
   opacity: 1;
-}
-
-/* =========================
-   ✨ ANIMACIONES
-========================= */
-
-@keyframes fadeIn {
-
-  from {
-
-    opacity: 0;
-
-    transform: translateY(10px);
-  }
-
-  to {
-
-    opacity: 1;
-
-    transform: translateY(0);
-  }
 }
