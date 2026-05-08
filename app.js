@@ -1,5 +1,20 @@
 // app.js
 
+// =========================
+// SUPABASE
+// =========================
+
+const SUPABASE_URL =
+  "https://sbwgirntoljbyuvswlmf.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_woa_hPslMEH9HszPgNe3sA_0L6fAYpy";
+
+const supabase =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 let data = JSON.parse(
   localStorage.getItem("data")
 ) || {
